@@ -7,7 +7,12 @@ My personal dotfiles for Arch-based Linux, managed as a bare Git repository.
 The install script is **idempotent** - safe to run multiple times. It will:
 - Set up the bare git dotfiles repository
 - Install paru (AUR helper) if not already installed
+- Install Desktop Environment (Hyprland + essential tools)
+- Install Wayland utilities (clipboard, portals, screenshots)
+- Install Development Tools (Docker, VSCode, browsers)
 - Configure shell aliases
+
+All packages are checked before installation - already-installed packages are skipped.
 
 ### Stable Version (main branch)
 

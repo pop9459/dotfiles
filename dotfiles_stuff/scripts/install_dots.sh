@@ -14,6 +14,8 @@ source "$SCRIPT_DIR/lib/utils.sh"
 # Source installation modules
 source "$SCRIPT_DIR/lib/install_dotfiles.sh"
 source "$SCRIPT_DIR/lib/install_paru.sh"
+source "$SCRIPT_DIR/lib/parse_packages.sh"
+source "$SCRIPT_DIR/lib/install_packages.sh"
 
 # Parse arguments
 BRANCH="${1:-main}"
@@ -38,6 +40,17 @@ main() {
     if ! install_paru; then
         log_warning "Paru installation was skipped or failed."
         log_info "You can install it manually later if needed."
+    fi
+    
+    # Install system packages
+    local packages_file="$SCRIPT_DIR/packages.yaml"
+    if [ -f "$packages_file" ]; then
+        if ! install_all_packages "$packages_file"; then
+            log_warning "Some packages failed to install, but continuing..."
+        fi
+    else
+        log_warning "Package list not found: $packages_file"
+        log_info "Skipping package installation."
     fi
     
     # Success message

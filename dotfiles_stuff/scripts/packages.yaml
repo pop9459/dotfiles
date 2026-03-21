@@ -1,0 +1,40 @@
+# Package definitions for dotfiles installation
+# Categories: desktop, wayland, dev-tools
+# Each package can be from official repos or AUR
+
+desktop:
+  description: "Desktop Environment - Hyprland and essential GUI tools"
+  official:
+    - hyprland
+    - ly  # Display manager
+    - fuzzel  # Application launcher
+    - mako  # Notification daemon
+    - hyprlock  # Screen locker
+    - hyprpaper  # Wallpaper daemon
+    - kitty  # Terminal emulator
+    - nautilus  # GUI file manager
+    - yazi  # CLI file manager
+  aur:
+    - eww-wayland  # Status bar widget system
+    - uwsm  # Universal Wayland session manager
+
+wayland:
+  description: "Wayland Essentials - Clipboard, portals, and utilities"
+  official:
+    - wl-clipboard  # Wayland clipboard utilities
+    - xdg-desktop-portal-hyprland  # Desktop portal for Hyprland
+    - kanshi  # Multi-monitor management
+    - grim  # Screenshot tool
+    - slurp  # Region selector for screenshots
+  aur:
+    - hyprpolkitagent  # Polkit authentication agent
+
+dev-tools:
+  description: "Development Tools - Containers, editors, browsers"
+  official:
+    - docker  # Container platform
+    - docker-compose  # Multi-container orchestration
+    - code  # Visual Studio Code (OSS)
+  aur:
+    - zen-browser-bin  # Zen browser
+    - lazydocker-bin  # Docker TUI management
