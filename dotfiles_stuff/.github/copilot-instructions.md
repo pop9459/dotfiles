@@ -44,7 +44,7 @@ This dotfiles setup is tailored for:
 
 ## Shell Commands
 
-When working with this repository:
+### For Users (with alias set up)
 
 ```bash
 # Check status of tracked dotfiles
@@ -62,6 +62,24 @@ dotfiles push
 # Pull updates
 dotfiles pull
 ```
+
+### For Copilot Sessions (use full command)
+
+Since shell aliases may not be available in Copilot's bash sessions, use the full git command:
+
+```bash
+# Define as variable for cleaner commands (optional)
+DOTFILES="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+
+# Or use directly:
+git --git-dir=$HOME/.dotfiles --work-tree=$HOME status
+git --git-dir=$HOME/.dotfiles --work-tree=$HOME add .config/some/config.file
+git --git-dir=$HOME/.dotfiles --work-tree=$HOME commit -m "Description"
+git --git-dir=$HOME/.dotfiles --work-tree=$HOME push
+git --git-dir=$HOME/.dotfiles --work-tree=$HOME push origin <branch-name>
+```
+
+**Important**: When pushing, check the current branch with `git --git-dir=$HOME/.dotfiles --work-tree=$HOME branch` and push to the correct branch explicitly if needed.
 
 ## Stack Components
 
