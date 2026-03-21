@@ -4,22 +4,41 @@ My personal dotfiles for Arch-based Linux, managed as a bare Git repository.
 
 ## 🚀 Quick Install (New Machine)
 
+### Stable Version (main branch)
 
 ```bash
-curl -s https://raw.githubusercontent.com/pop9459/dotfiles/main/install_dots.sh | bash
+curl -s https://raw.githubusercontent.com/pop9459/dotfiles/main/scripts/install_dots.sh | bash
 ```
 
 Or clone and run:
 
 ```bash
 git clone https://github.com/pop9459/dotfiles.git ~/dotfiles-temp
-bash ~/dotfiles-temp/install_dots.sh
+bash ~/dotfiles-temp/scripts/install_dots.sh
 rm -rf ~/dotfiles-temp
 ```
 
-After installation, restart your shell or run:
+### Development Version (from_scratch branch)
+
+⚠️ **Current active development branch** - includes latest features but may be unstable.
+
 ```bash
-source ~/.bashrc  # or ~/.zshrc
+curl -s https://raw.githubusercontent.com/pop9459/dotfiles/from_scratch/scripts/install_dots.sh | bash
+```
+
+Or clone and run:
+
+```bash
+git clone --branch from_scratch https://github.com/pop9459/dotfiles.git ~/dotfiles-temp
+bash ~/dotfiles-temp/scripts/install_dots.sh
+rm -rf ~/dotfiles-temp
+```
+
+### After Installation
+
+Restart your shell or run:
+```bash
+source ~/.bashrc  # or ~/.config/fish/config.fish for fish shell
 ```
 
 ## 💻 Usage
@@ -90,5 +109,6 @@ dotfiles log                       # View history
 ## ⚙️ Repository
 
 - **GitHub**: [pop9459/dotfiles](https://github.com/pop9459/dotfiles)
-- **Branch**: main
+- **Main Branch**: `main` (stable)
+- **Dev Branch**: `from_scratch` (active development)
 
