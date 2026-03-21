@@ -15,10 +15,33 @@ This is a **bare Git repository** for managing dotfiles across Arch-based Linux 
 
 ### Installation Flow
 
-1. `install_dots.sh` script clones the bare repository to `~/.dotfiles`
-2. Sets up the `dotfiles` command alias in the shell RC file
+1. `install_dots.sh` script (modular architecture):
+   - Sources utility functions from `lib/utils.sh`
+   - Calls `lib/install_dotfiles.sh` to set up bare repository
+   - Calls `lib/install_paru.sh` to install AUR helper
+2. Sets up the `dotfiles` command alias in shell RC files
 3. Checks out dotfiles to the home directory
 4. Configures the repo to not show untracked files (`git config --local status.showUntrackedFiles no`)
+5. **Script is idempotent** - safe to run multiple times, will skip already-installed components
+
+### Installation Script Structure
+
+The installation scripts follow a modular architecture:
+
+```
+scripts/
+├── install_dots.sh          # Main orchestrator
+└── lib/
+    ├── utils.sh             # Shared utilities (logging, checks, retry logic)
+    ├── install_dotfiles.sh  # Bare repository setup
+    └── install_paru.sh      # Paru AUR helper installation
+```
+
+**Key Features:**
+- **Idempotent**: Checks if components are already installed before acting
+- **Error Handling**: Retry prompts on failures with helpful recovery tips
+- **Modular**: Easy to add new installation modules
+- **Logging**: Color-coded output (INFO, SUCCESS, WARNING, ERROR)
 
 ## Important Conventions
 
@@ -104,3 +127,17 @@ git --git-dir=$HOME/.dotfiles --work-tree=$HOME push origin <branch-name>
 2. Add using: `dotfiles add <relative-path-from-home>`
 3. Update README.md if adding a new tool/component category
 4. Keep the bare repository setup in mind - avoid tracking large binaries or secrets
+
+## When Adding New Installation Modules
+
+To add a new installation component (e.g., install_hyprland.sh):
+
+1. Create `scripts/lib/install_<component>.sh`
+2. Follow the module pattern:
+   - Check if already installed (idempotency)
+   - Use utility functions from `utils.sh` (log_info, log_success, command_exists)
+   - Implement retry logic for failures with `retry_on_failure` or custom prompts
+   - Clean up temporary files/directories
+3. Source the module in `install_dots.sh`
+4. Add installation call in the main() function
+5. Test idempotency (run script multiple times)

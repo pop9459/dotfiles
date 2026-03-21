@@ -1,112 +1,55 @@
 #!/usr/bin/env bash
+# Main installation script for dotfiles and system setup
+# Usage: ./install_dots.sh [branch]
+#   branch: Git branch to checkout (default: main)
 
 set -e
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo -e "${GREEN}=== Dotfiles Installation ===${NC}"
+# Source utility functions
+source "$SCRIPT_DIR/lib/utils.sh"
 
-# Configuration
-DOTFILES_REPO="https://github.com/pop9459/dotfiles.git"
-DOTFILES_DIR="$HOME/.dotfiles"
-BRANCH="${1:-main}"  # Use first argument or default to main
+# Source installation modules
+source "$SCRIPT_DIR/lib/install_dotfiles.sh"
+source "$SCRIPT_DIR/lib/install_paru.sh"
 
-echo -e "${GREEN}Installing from branch: ${BRANCH}${NC}"
+# Parse arguments
+BRANCH="${1:-main}"
 
-# Check if git is installed
-if ! command -v git &> /dev/null; then
-    echo -e "${RED}Error: git is not installed. Please install git first.${NC}"
-    exit 1
-fi
-
-# Check if .dotfiles already exists
-if [ -d "$DOTFILES_DIR" ]; then
-    echo -e "${YELLOW}Warning: $DOTFILES_DIR already exists.${NC}"
-    read -p "Do you want to remove it and reinstall? (y/N) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        rm -rf "$DOTFILES_DIR"
-    else
-        echo "Installation cancelled."
+# Main installation flow
+main() {
+    log_header "Dotfiles System Installation"
+    
+    # Check prerequisites
+    if ! command_exists git; then
+        log_error "git is not installed. Please install git first."
         exit 1
     fi
-fi
-
-# Clone the bare repository
-echo -e "${GREEN}Cloning bare repository to $DOTFILES_DIR...${NC}"
-git clone --bare "$DOTFILES_REPO" "$DOTFILES_DIR"
-
-# Define the dotfiles command for this session
-function dotfiles {
-    git --git-dir="$DOTFILES_DIR" --work-tree="$HOME" "$@"
+    
+    # Install dotfiles
+    if ! install_dotfiles "$BRANCH"; then
+        log_error "Dotfiles installation failed."
+        exit 1
+    fi
+    
+    # Install paru (AUR helper)
+    if ! install_paru; then
+        log_warning "Paru installation was skipped or failed."
+        log_info "You can install it manually later if needed."
+    fi
+    
+    # Success message
+    echo ""
+    log_header "Installation Complete!"
+    echo ""
+    echo "To start using the dotfiles command, either:"
+    echo "  1. Restart your shell"
+    echo "  2. Or run: source ~/.bashrc (or ~/.config/fish/config.fish for fish)"
+    echo ""
+    echo "Then you can use: dotfiles status, dotfiles add, dotfiles commit, etc."
 }
 
-# Configure the repository
-echo -e "${GREEN}Configuring repository...${NC}"
-dotfiles config --local status.showUntrackedFiles no
-
-# Checkout the branch
-echo -e "${GREEN}Checking out dotfiles...${NC}"
-if ! dotfiles checkout "$BRANCH" 2>&1 | grep -q "error: The following untracked working tree files would be overwritten"; then
-    dotfiles checkout "$BRANCH"
-else
-    echo -e "${YELLOW}Warning: Some files would be overwritten. Creating backup...${NC}"
-    mkdir -p "$HOME/.dotfiles-backup"
-    dotfiles checkout "$BRANCH" 2>&1 | grep -E "^\s+" | awk '{print $1}' | xargs -I{} mv "$HOME/{}" "$HOME/.dotfiles-backup/"
-    dotfiles checkout "$BRANCH"
-    echo -e "${GREEN}Original files backed up to $HOME/.dotfiles-backup${NC}"
-fi
-
-# Setup alias in appropriate shell config
-echo -e "${GREEN}Setting up dotfiles alias...${NC}"
-
-ALIAS_LINE='alias dotfiles="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"'
-
-# Detect shell and add alias
-if [ -n "$FISH_VERSION" ] || command -v fish &> /dev/null; then
-    # Fish shell
-    FISH_CONFIG="$HOME/.config/fish/config.fish"
-    mkdir -p "$(dirname "$FISH_CONFIG")"
-    
-    if ! grep -q "alias dotfiles" "$FISH_CONFIG" 2>/dev/null; then
-        echo "" >> "$FISH_CONFIG"
-        echo "# Dotfiles management alias" >> "$FISH_CONFIG"
-        echo "alias dotfiles='git --git-dir=\$HOME/.dotfiles --work-tree=\$HOME'" >> "$FISH_CONFIG"
-        echo -e "${GREEN}Added alias to $FISH_CONFIG${NC}"
-    fi
-fi
-
-# Also add to bashrc for compatibility
-BASHRC="$HOME/.bashrc"
-if [ -f "$BASHRC" ]; then
-    if ! grep -q "alias dotfiles" "$BASHRC" 2>/dev/null; then
-        echo "" >> "$BASHRC"
-        echo "# Dotfiles management alias" >> "$BASHRC"
-        echo "$ALIAS_LINE" >> "$BASHRC"
-        echo -e "${GREEN}Added alias to $BASHRC${NC}"
-    fi
-fi
-
-# Also add to zshrc if it exists
-ZSHRC="$HOME/.zshrc"
-if [ -f "$ZSHRC" ]; then
-    if ! grep -q "alias dotfiles" "$ZSHRC" 2>/dev/null; then
-        echo "" >> "$ZSHRC"
-        echo "# Dotfiles management alias" >> "$ZSHRC"
-        echo "$ALIAS_LINE" >> "$ZSHRC"
-        echo -e "${GREEN}Added alias to $ZSHRC${NC}"
-    fi
-fi
-
-echo ""
-echo -e "${GREEN}=== Installation Complete! ===${NC}"
-echo ""
-echo "To start using the dotfiles command, either:"
-echo "  1. Restart your shell"
-echo "  2. Or run: source ~/.bashrc (or ~/.config/fish/config.fish for fish)"
-echo ""
-echo "Then you can use: dotfiles status, dotfiles add, dotfiles commit, etc."
+# Run main function
+main

@@ -4,6 +4,11 @@ My personal dotfiles for Arch-based Linux, managed as a bare Git repository.
 
 ## 🚀 Quick Install (New Machine)
 
+The install script is **idempotent** - safe to run multiple times. It will:
+- Set up the bare git dotfiles repository
+- Install paru (AUR helper) if not already installed
+- Configure shell aliases
+
 ### Stable Version (main branch)
 
 ```bash
