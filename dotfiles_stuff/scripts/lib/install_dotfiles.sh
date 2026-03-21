@@ -11,11 +11,41 @@ install_dotfiles() {
     
     # Check if already installed
     if [ -d "$dotfiles_dir" ]; then
-        log_warning "$dotfiles_dir already exists."
+        log_info "$dotfiles_dir already exists."
         
         # Check if it's a valid git repo
         if git --git-dir="$dotfiles_dir" --work-tree="$HOME" rev-parse --git-dir &> /dev/null; then
-            log_success "Dotfiles repository already set up. Skipping."
+            log_info "Updating existing dotfiles repository..."
+            
+            # Define dotfiles command for this session
+            function dotfiles {
+                git --git-dir="$dotfiles_dir" --work-tree="$HOME" "$@"
+            }
+            
+            # Fetch latest changes
+            log_info "Fetching latest changes..."
+            if ! dotfiles fetch origin; then
+                log_warning "Failed to fetch updates. Continuing with local version."
+            else
+                # Check if we're on the correct branch
+                local current_branch=$(dotfiles branch --show-current 2>/dev/null || echo "")
+                if [ "$current_branch" != "$branch" ]; then
+                    log_info "Switching from branch '$current_branch' to '$branch'..."
+                    if ! dotfiles checkout "$branch"; then
+                        log_warning "Could not switch to branch '$branch'. Staying on '$current_branch'."
+                    fi
+                fi
+                
+                # Pull latest changes for current branch
+                log_info "Pulling latest changes..."
+                if ! dotfiles pull origin "$branch" 2>&1 | grep -q "Already up to date"; then
+                    dotfiles pull origin "$branch" || log_warning "Could not pull latest changes. Using local version."
+                    log_success "Dotfiles updated successfully."
+                else
+                    log_info "Dotfiles already up to date."
+                fi
+            fi
+            
             setup_dotfiles_alias
             return 0
         else
