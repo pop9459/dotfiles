@@ -13,7 +13,9 @@ echo -e "${GREEN}=== Dotfiles Installation ===${NC}"
 # Configuration
 DOTFILES_REPO="https://github.com/pop9459/dotfiles.git"
 DOTFILES_DIR="$HOME/.dotfiles"
-BRANCH="main"
+BRANCH="${1:-main}"  # Use first argument or default to main
+
+echo -e "${GREEN}Installing from branch: ${BRANCH}${NC}"
 
 # Check if git is installed
 if ! command -v git &> /dev/null; then

@@ -10,28 +10,12 @@ My personal dotfiles for Arch-based Linux, managed as a bare Git repository.
 curl -s https://raw.githubusercontent.com/pop9459/dotfiles/main/dotfiles_stuff/scripts/install_dots.sh | bash
 ```
 
-Or clone and run:
-
-```bash
-git clone https://github.com/pop9459/dotfiles.git ~/dotfiles-temp
-bash ~/dotfiles-temp/dotfiles_stuff/scripts/install_dots.sh
-rm -rf ~/dotfiles-temp
-```
-
 ### Development Version (from_scratch branch)
 
 ⚠️ **Current active development branch** - includes latest features but may be unstable.
 
 ```bash
-curl -s https://raw.githubusercontent.com/pop9459/dotfiles/from_scratch/dotfiles_stuff/scripts/install_dots.sh | bash
-```
-
-Or clone and run:
-
-```bash
-git clone --branch from_scratch https://github.com/pop9459/dotfiles.git ~/dotfiles-temp
-bash ~/dotfiles-temp/dotfiles_stuff/scripts/install_dots.sh
-rm -rf ~/dotfiles-temp
+curl -s https://raw.githubusercontent.com/pop9459/dotfiles/from_scratch/dotfiles_stuff/scripts/install_dots.sh | bash -s from_scratch
 ```
 
 ### After Installation
