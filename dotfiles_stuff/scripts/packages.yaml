@@ -6,7 +6,7 @@ desktop:
   description: "Desktop Environment - Hyprland and essential GUI tools"
   official:
     - hyprland
-    - ly  # Display manager
+    - ly  # Login manager
     - fuzzel  # Application launcher
     - mako  # Notification daemon
     - hyprlock  # Screen locker
