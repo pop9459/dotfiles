@@ -36,6 +36,16 @@ else
     echo -e "${YELLOW}Repository not found at $DOTFILES_DIR${NC}"
 fi
 
+# Remove the dotfiles_stuff directory 
+DOTFILES_STUFF_DIR="$HOME/.dotfiles_stuff"
+if [ -d "$DOTFILES_STUFF_DIR" ]; then
+    echo -e "${GREEN}Removing $DOTFILES_STUFF_DIR...${NC}"
+    rm -rf "$DOTFILES_STUFF_DIR"
+    echo -e "${GREEN}✓ dotfiles_stuff dir removed${NC}"
+else
+    echo -e "${YELLOW}Repository not found at $DOTFILES_STUFF_DIR${NC}"
+fi
+
 # Remove alias from fish config
 FISH_CONFIG="$HOME/.config/fish/config.fish"
 if [ -f "$FISH_CONFIG" ]; then
