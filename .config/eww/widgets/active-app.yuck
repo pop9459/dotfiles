@@ -1,0 +1,18 @@
+;; Active app data (name + icon path)
+(deflisten active_app_data :initial "{\"name\":\"\",\"icon\":\"\",\"focused\":false}"
+  `bash ~/.config/eww/scripts/active-app.sh listen`)
+
+;; Active app widget
+(defwidget active-app []
+  (box :class "pill active-app"
+       :orientation "h"
+    :visible "${active_app_data.focused}"
+       :spacing 8
+    (image :path "${active_app_data.icon}"
+     :visible "${active_app_data.icon != ''}"
+           :image-width 16
+           :image-height 16)
+    (label :class "active-app-name"
+           :text "${active_app_data.name}"
+           :limit-width 30
+           :truncate true)))

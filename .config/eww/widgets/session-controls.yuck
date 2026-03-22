@@ -1,0 +1,13 @@
+;; Session controls widget (lock + power)
+(defwidget session-controls []
+  (box :class "pill session-controls"
+       :orientation "h"
+       :spacing 8
+    (button :class "session-btn lock-btn"
+            :tooltip "Lock session"
+            :onclick "pidof hyprlock >/dev/null || hyprlock || loginctl lock-session"
+      "")
+    (button :class "session-btn power-btn"
+            :tooltip "Power off"
+            :onclick "systemctl poweroff"
+      "⏻")))

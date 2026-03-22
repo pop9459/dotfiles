@@ -1,4 +1,7 @@
 (include "widgets/workspaces.yuck")
+(include "widgets/clock.yuck")
+(include "widgets/session-controls.yuck")
+(include "widgets/active-app.yuck")
 
 ;; Left section of the bar
 (defwidget left []
@@ -9,6 +12,7 @@
        :spacing 10
     ;; Add left widgets here (e.g., workspaces, application launcher, etc.)
     (workspaces)  
+    (active-app)
   )
 )
 
@@ -20,7 +24,7 @@
        :halign "center"
        :spacing 10
     ;; Add center widgets here
-    (label :class "pill" :text "Center")
+    (clock)
   )
 )
 
@@ -32,7 +36,7 @@
        :halign "end"
        :spacing 10
     ;; Add right widgets here (e.g., clock, system tray, etc.)
-    (label :class "pill" :text "Right")
+    (session-controls)
   )
 )
 

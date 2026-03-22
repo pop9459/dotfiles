@@ -1,0 +1,8 @@
+;; Clock data (24h format)
+(defpoll clock_time :interval "30s"
+	"date '+%d/%m | %H:%M'")
+
+;; Clock widget
+(defwidget clock []
+	(box :class "pill"
+		(label :text "${clock_time}")))
