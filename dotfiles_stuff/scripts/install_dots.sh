@@ -64,6 +64,7 @@ source "$SCRIPT_DIR/lib/utils.sh"
 source "$SCRIPT_DIR/lib/install_dotfiles.sh"
 source "$SCRIPT_DIR/lib/install_paru.sh"
 source "$SCRIPT_DIR/lib/install_keyring.sh"
+source "$SCRIPT_DIR/lib/install_matugen.sh"
 source "$SCRIPT_DIR/lib/parse_packages.sh"
 source "$SCRIPT_DIR/lib/install_packages.sh"
 
@@ -89,6 +90,13 @@ main() {
         log_info "CLI tools may not be able to store credentials securely."
     fi
     
+    # Install matugen theme manager and generate initial theme
+    if ! install_matugen; then
+        log_warning "Matugen installation was skipped or failed."
+        log_info "You can install it later with: sudo pacman -S matugen"
+        log_info "Then generate theme with: matugen theme catppuccin-macchiato"
+    fi
+    
     # Install system packages
     local packages_file="$SCRIPT_DIR/packages.yaml"
     if [ -f "$packages_file" ]; then
@@ -109,6 +117,11 @@ main() {
     echo "  2. Or run: source ~/.bashrc (or ~/.config/fish/config.fish for fish)"
     echo ""
     echo "Then you can use: dotfiles status, dotfiles add, dotfiles commit, etc."
+    echo ""
+    log_info "Theme Management:"
+    echo "  - Switch themes with: theme-switch catppuccin-mocha"
+    echo "  - Available: catppuccin-mocha, catppuccin-macchiato, catppuccin-frappe, catppuccin-latte"
+    echo "  - Generate from wallpaper: theme-switch /path/to/wallpaper.png"
 }
 
 # Run main function
