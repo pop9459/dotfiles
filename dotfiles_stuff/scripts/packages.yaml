@@ -7,13 +7,15 @@ desktop:
   official:
     - hyprland
     - ly  # Login manager
-    - fuzzel  # Application launcher
+    - hyprlauncher  # Application launcher
     - mako  # Notification daemon
     - hyprlock  # Screen locker
     - hyprpaper  # Wallpaper daemon
     - kitty  # Terminal emulator
     - nautilus  # GUI file manager
     - yazi  # CLI file manager
+    - gnome-keyring  # Credential storage and management
+    - seahorse  # GUI for managing gnome-keyring
   aur:
     - eww-wayland  # Status bar widget system
     - uwsm  # Universal Wayland session manager

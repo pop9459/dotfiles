@@ -64,12 +64,13 @@ dotfiles log                       # View history
 - **WM/Compositor**: Hyprland (uwsm-managed session)
 - **Display Manager**: ly
 - **Status Bar**: eww-wayland
-- **Launcher**: fuzzel
+- **Launcher**: hyprlauncher 
 - **Notifications**: mako
 - **Lockscreen**: hyprlock
 - **Wallpaper**: hyprpaper
 - **Terminal**: kitty
 - **File Manager**: Nautilus (Nextcloud) + yazi (CLI)
+- **Keyring**: gnome-keyring + seahorse
 
 
 ### Wayland Essentials
