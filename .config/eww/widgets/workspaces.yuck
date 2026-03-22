@@ -1,0 +1,20 @@
+;; Variables
+(defvar workspaces "[{\"id\":1,\"active\":true}]")
+
+;; Dynamic workspace data
+(deflisten workspaces_data :initial "[]"
+  `bash ~/.config/eww/scripts/workspaces.sh listen`
+)
+
+;; Workspace widget
+(defwidget workspaces []
+  (box :class "workspaces-widget pill"
+    (for ws in workspaces_data
+      (button 
+        :class "workspace-btn ${ws.active ? 'active' : 'inactive'}"
+        :onclick "hyprctl dispatch workspace ${ws.id}"
+        "${ws.id}"
+      )
+    )
+  )
+)

@@ -31,7 +31,22 @@ if [ "$1" = "listen" ]; then
     get_workspaces
     
     # Listen for workspace events
-    socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - | while read -r line; do
+    # Try to find the correct socket path
+    SOCKET_PATH=""
+    if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+        if [ -S "/run/user/$(id -u)/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" ]; then
+            SOCKET_PATH="/run/user/$(id -u)/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
+        elif [ -S "/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" ]; then
+            SOCKET_PATH="/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
+        fi
+    fi
+    
+    if [ -z "$SOCKET_PATH" ]; then
+        echo "Error: Could not find Hyprland socket" >&2
+        exit 1
+    fi
+    
+    socat -u UNIX-CONNECT:"$SOCKET_PATH" - | while read -r line; do
         case "$line" in
             workspace*|destroyworkspace*|createworkspace*)
                 get_workspaces
