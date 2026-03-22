@@ -63,6 +63,7 @@ source "$SCRIPT_DIR/lib/utils.sh"
 # Source installation modules
 source "$SCRIPT_DIR/lib/install_dotfiles.sh"
 source "$SCRIPT_DIR/lib/install_paru.sh"
+source "$SCRIPT_DIR/lib/install_keyring.sh"
 source "$SCRIPT_DIR/lib/parse_packages.sh"
 source "$SCRIPT_DIR/lib/install_packages.sh"
 
@@ -80,6 +81,12 @@ main() {
     if ! install_paru; then
         log_warning "Paru installation was skipped or failed."
         log_info "You can install it manually later if needed."
+    fi
+    
+    # Set up system keyring for secure credential storage
+    if ! install_keyring; then
+        log_warning "Keyring setup was skipped or failed."
+        log_info "CLI tools may not be able to store credentials securely."
     fi
     
     # Install system packages
