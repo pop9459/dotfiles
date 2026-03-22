@@ -2,8 +2,8 @@
 # Theme Switching Script for matugen
 # Usage: theme-switch.sh <theme-name>
 #   Examples:
-#     theme-switch.sh catppuccin-macchiato
-#     theme-switch.sh catppuccin-mocha
+#     theme-switch.sh mocha
+#     theme-switch.sh macchiato
 #     theme-switch.sh /path/to/wallpaper.png  (generates from wallpaper)
 
 set -e
@@ -14,24 +14,31 @@ if [ -z "$THEME" ]; then
     echo "Usage: $0 <theme-name|wallpaper-path>"
     echo ""
     echo "Available Catppuccin themes:"
-    echo "  - catppuccin-mocha"
-    echo "  - catppuccin-macchiato"
-    echo "  - catppuccin-frappe"
-    echo "  - catppuccin-latte"
+    echo "  - mocha (dark, purple-ish)"
+    echo "  - macchiato (dark, warmer)"
+    echo "  - frappe (dark, cooler)"
+    echo "  - latte (light)"
     echo ""
     echo "Or provide a wallpaper path to generate colors from it"
     exit 1
 fi
 
-echo "Applying theme: $THEME"
+THEME_DIR="$HOME/.config/matugen/themes"
 
 # Check if theme is a file (wallpaper) or a theme name
 if [ -f "$THEME" ]; then
     echo "Generating theme from wallpaper: $THEME"
     matugen image "$THEME"
+elif [ -f "$THEME_DIR/catppuccin-$THEME.json" ]; then
+    echo "Applying Catppuccin $THEME theme..."
+    matugen json "$THEME_DIR/catppuccin-$THEME.json"
 else
-    echo "Applying built-in theme: $THEME"
-    matugen theme "$THEME"
+    echo "Error: Theme not found"
+    echo "Looking for: $THEME_DIR/catppuccin-$THEME.json"
+    echo ""
+    echo "Available themes:"
+    ls -1 "$THEME_DIR"/catppuccin-*.json 2>/dev/null | xargs -n1 basename | sed 's/catppuccin-//;s/.json//' | sed 's/^/  - /'
+    exit 1
 fi
 
 echo "Theme applied successfully!"

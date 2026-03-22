@@ -69,9 +69,23 @@ generate_matugen_theme() {
     mkdir -p "$HOME/.config/eww"
     mkdir -p "$HOME/.config/hypr"
     mkdir -p "$HOME/.config/kitty"
+    mkdir -p "$HOME/.config/matugen/themes"
+    
+    # Download Catppuccin theme JSONs if not present
+    if [ ! -f "$HOME/.config/matugen/themes/catppuccin-macchiato.json" ]; then
+        log_info "Downloading Catppuccin theme files..."
+        curl -s https://raw.githubusercontent.com/catppuccin/palette/main/palette.json | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+for variant in ['mocha', 'macchiato', 'frappe', 'latte']:
+    colors = {name: info['hex'] for name, info in data[variant]['colors'].items()}
+    with open(f'$HOME/.config/matugen/themes/catppuccin-{variant}.json', 'w') as f:
+        json.dump(colors, f, indent=2)
+" 2>/dev/null || log_warning "Failed to download theme files"
+    fi
     
     # Generate theme with Catppuccin Macchiato
-    if matugen theme catppuccin-macchiato 2>/dev/null; then
+    if matugen json "$HOME/.config/matugen/themes/catppuccin-macchiato.json" 2>/dev/null; then
         log_success "Theme generated: Catppuccin Macchiato"
         
         # List generated files

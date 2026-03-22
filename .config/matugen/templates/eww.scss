@@ -21,17 +21,17 @@
 
 /* Pill-shaped widget base style */
 .pill {
-  background-color: rgba({{ colors.base.rgb.r }}, {{ colors.base.rgb.g }}, {{ colors.base.rgb.b }}, 0.8);
+  background-color: {{ base }};
   border-radius: 20px;
   padding: 6px 16px;
   margin: 0px;
-  border: 1px solid rgba({{ colors.blue.rgb.r }}, {{ colors.blue.rgb.g }}, {{ colors.blue.rgb.b }}, 0.3);
+  border: 1px solid {{ blue }};
   transition: all 0.2s ease;
 }
 
 .pill:hover {
-  background-color: rgba({{ colors.mantle.rgb.r }}, {{ colors.mantle.rgb.g }}, {{ colors.mantle.rgb.b }}, 0.9);
-  border-color: rgba({{ colors.blue.rgb.r }}, {{ colors.blue.rgb.g }}, {{ colors.blue.rgb.b }}, 0.5);
+  background-color: {{ mantle }};
+  border-color: {{ sapphire }};
 }
 
 /* Workspaces widget */
@@ -52,25 +52,25 @@
 
 /* Active workspace */
 .workspace-btn.active {
-  background-color: {{ colors.blue.hex }};
-  color: {{ colors.crust.hex }};
-  border: 2px solid {{ colors.blue.hex }};
+  background-color: {{ blue }};
+  color: {{ crust }};
+  border: 2px solid {{ blue }};
 }
 
 .workspace-btn.active:hover {
-  background-color: {{ colors.sapphire.hex }};
-  border-color: {{ colors.sapphire.hex }};
+  background-color: {{ sapphire }};
+  border-color: {{ sapphire }};
 }
 
 /* Inactive workspace */
 .workspace-btn.inactive {
-  background-color: rgba({{ colors.surface0.rgb.r }}, {{ colors.surface0.rgb.g }}, {{ colors.surface0.rgb.b }}, 0.6);
-  color: rgba({{ colors.text.rgb.r }}, {{ colors.text.rgb.g }}, {{ colors.text.rgb.b }}, 0.8);
-  border: 2px solid rgba({{ colors.surface1.rgb.r }}, {{ colors.surface1.rgb.g }}, {{ colors.surface1.rgb.b }}, 0.8);
+  background-color: {{ surface0 }};
+  color: {{ text }};
+  border: 2px solid {{ surface1 }};
 }
 
 .workspace-btn.inactive:hover {
-  background-color: rgba({{ colors.surface1.rgb.r }}, {{ colors.surface1.rgb.g }}, {{ colors.surface1.rgb.b }}, 0.8);
-  color: {{ colors.text.hex }};
-  border-color: rgba({{ colors.blue.rgb.r }}, {{ colors.blue.rgb.g }}, {{ colors.blue.rgb.b }}, 0.5);
+  background-color: {{ surface1 }};
+  color: {{ text }};
+  border-color: {{ blue }};
 }
