@@ -1,0 +1,68 @@
+;; Variables
+(defvar workspaces "[{\"id\":1,\"active\":true}]")
+
+;; Dynamic workspace data
+(deflisten workspaces_data :initial "[]"
+  `bash ~/.config/eww/scripts/workspaces.sh listen`)
+
+;; Workspace widget
+(defwidget workspaces []
+  (box :class "workspaces-widget pill"
+       :orientation "h"
+       :space-evenly false
+       :spacing 8
+    (for ws in workspaces_data
+      (button :class "workspace-btn ${ws.active ? 'active' : 'inactive'}"
+              :onclick "hyprctl dispatch workspace ${ws.id}"
+        "${ws.id}"))))
+
+;; Left section of the bar
+(defwidget left []
+  (box :class "bar-section"
+       :orientation "h"
+       :space-evenly false
+       :halign "start"
+       :spacing 10
+    (workspaces)))
+
+;; Center section of the bar (placeholder for future widgets)
+(defwidget center []
+  (box :class "bar-section"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+       :spacing 10
+    ;; Add center widgets here
+    (label :class "pill" :text "Center")))
+
+;; Right section of the bar (placeholder for future widgets)
+(defwidget right []
+  (box :class "bar-section"
+       :orientation "h"
+       :space-evenly false
+       :halign "end"
+       :spacing 10
+    ;; Add right widgets here (e.g., clock, system tray, etc.)
+    (label :class "pill" :text "Right")))
+
+;; Main bar widget
+(defwidget bar []
+  (centerbox :class "bar"
+             :orientation "h"
+    (left)
+    (center)
+    (right)))
+
+;; Bar window
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "100%"
+                      :height "32px"
+                      :anchor "top center")
+  :reserve (struts :side "top" :distance "32px")
+  :stacking "fg"
+  :exclusive true
+  (bar))
