@@ -1,0 +1,23 @@
+# Matugen Configuration
+# https://iniox.github.io/#matugen
+
+# Default theme to use
+[config]
+reload_apps = true
+reload_apps_list = { eww = "eww reload", hyprland = "hyprctl reload" }
+
+# Templates configuration
+[templates]
+#  Template name = { input_path = "path/to/template", output_path = "path/to/output" }
+
+[templates.eww]
+input_path = "~/.config/matugen/templates/eww.scss"
+output_path = "~/.config/eww/eww.scss"
+
+[templates.hyprland-colors]
+input_path = "~/.config/matugen/templates/colors-hyprland.conf"
+output_path = "~/.config/hypr/colors.conf"
+
+[templates.kitty]
+input_path = "~/.config/matugen/templates/kitty.conf"
+output_path = "~/.config/kitty/colors.conf"

@@ -1,0 +1,60 @@
+#!/bin/bash
+# Theme Switching Script for matugen
+# Usage: theme-switch.sh <theme-name>
+#   Examples:
+#     theme-switch.sh catppuccin-macchiato
+#     theme-switch.sh catppuccin-mocha
+#     theme-switch.sh /path/to/wallpaper.png  (generates from wallpaper)
+
+set -e
+
+THEME="$1"
+
+if [ -z "$THEME" ]; then
+    echo "Usage: $0 <theme-name|wallpaper-path>"
+    echo ""
+    echo "Available Catppuccin themes:"
+    echo "  - catppuccin-mocha"
+    echo "  - catppuccin-macchiato"
+    echo "  - catppuccin-frappe"
+    echo "  - catppuccin-latte"
+    echo ""
+    echo "Or provide a wallpaper path to generate colors from it"
+    exit 1
+fi
+
+echo "Applying theme: $THEME"
+
+# Check if theme is a file (wallpaper) or a theme name
+if [ -f "$THEME" ]; then
+    echo "Generating theme from wallpaper: $THEME"
+    matugen image "$THEME"
+else
+    echo "Applying built-in theme: $THEME"
+    matugen theme "$THEME"
+fi
+
+echo "Theme applied successfully!"
+echo ""
+echo "Reloading applications..."
+
+# Reload eww
+if pgrep -x eww > /dev/null; then
+    echo "  - Reloading eww..."
+    eww reload
+fi
+
+# Reload Hyprland
+if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    echo "  - Reloading Hyprland..."
+    hyprctl reload
+fi
+
+# Reload kitty (send signal to all kitty instances)
+if pgrep -x kitty > /dev/null; then
+    echo "  - Sending reload signal to kitty..."
+    killall -SIGUSR1 kitty 2>/dev/null || true
+fi
+
+echo ""
+echo "Done! Theme switched to: $THEME"
