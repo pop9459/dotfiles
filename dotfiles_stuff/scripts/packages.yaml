@@ -37,6 +37,10 @@ dev-tools:
     - docker  # Container platform
     - docker-compose  # Multi-container orchestration
     - code  # Visual Studio Code (OSS)
+    - fzf  # Fuzzy finder for command line
+    - fd  # Fast file finder (used by fzf)
+    - fish  # Fish shell
   aur:
     - zen-browser-bin  # Zen browser
     - lazydocker-bin  # Docker TUI management
+    - fisher  # Fish shell plugin manager

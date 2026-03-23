@@ -1,6 +1,14 @@
+# Fish greeting
+set -g fish_greeting # Add custom text here if wanted
 
 # Dotfiles management alias
 alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+
+# Configure fzf.fish keybindings - use Alt+C for directory navigation
+# fzf_configure_bindings --directory=\ec
+
+# Customize fzf fd options to include .config directory specifically
+set -gx fzf_fd_opts --hidden --exclude .git --exclude .cache --exclude .local --exclude .mozilla --exclude .npm --exclude .cargo
 
 function yz
     # Create temp file for yazi to write cwd into
