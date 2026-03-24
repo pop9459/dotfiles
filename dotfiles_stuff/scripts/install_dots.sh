@@ -66,6 +66,7 @@ source "$SCRIPT_DIR/lib/install_paru.sh"
 source "$SCRIPT_DIR/lib/install_keyring.sh"
 source "$SCRIPT_DIR/lib/install_matugen.sh"
 source "$SCRIPT_DIR/lib/install_fish.sh"
+source "$SCRIPT_DIR/lib/install_fonts.sh"
 source "$SCRIPT_DIR/lib/parse_packages.sh"
 source "$SCRIPT_DIR/lib/install_packages.sh"
 
@@ -107,6 +108,13 @@ main() {
     else
         log_warning "Package list not found: $packages_file"
         log_info "Skipping package installation."
+    fi
+    
+    # Install essential fonts (JetBrainsMono Nerd Font, Font Awesome)
+    if ! install_fonts; then
+        log_warning "Font installation was skipped or failed."
+        log_info "You may see square symbols instead of icons."
+        log_info "Run manually: paru -S ttf-jetbrains-mono-nerd ttf-font-awesome"
     fi
     
     # Set up Fish shell plugins (fisher + fzf.fish)

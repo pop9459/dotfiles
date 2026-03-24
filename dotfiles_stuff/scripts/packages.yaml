@@ -16,6 +16,11 @@ desktop:
     - yazi  # CLI file manager
     - gnome-keyring  # Credential storage and management
     - seahorse  # GUI for managing gnome-keyring
+    - ttf-jetbrains-mono-nerd  # JetBrains Mono with Nerd Font icons
+    - noto-fonts  # Standard sans-serif font
+    - noto-fonts-cjk  # CJK language support
+    - noto-fonts-emoji  # Emoji support
+    - ttf-font-awesome  # Icon font for UI elements
   aur:
     - eww-wayland  # Status bar widget system
     - uwsm  # Universal Wayland session manager
