@@ -1,13 +1,26 @@
-;; Session controls widget (lock + power)
+;; Session controls widget
 (defwidget session-controls []
-  (box :class "pill session-controls"
-       :orientation "h"
-       :spacing 8
-    (button :class "session-btn lock-btn"
-            :tooltip "Lock session"
+  (box :orientation "h"
+       :space-evenly false
+       :class "pill session-controls"
+       :spacing 0
+    (button :class "session-btn shutdown"
+            :tooltip "Shutdown"
+            :onclick "systemctl poweroff"
+      "")
+    (button :class "session-btn reboot"
+            :tooltip "Reboot"
+            :onclick "systemctl reboot"
+      "")
+    (button :class "session-btn lock"
+            :tooltip "Lock"
             :onclick "pidof hyprlock >/dev/null || hyprlock || loginctl lock-session"
       "")
-    (button :class "session-btn power-btn"
-            :tooltip "Power off"
-            :onclick "systemctl poweroff"
-      "⏻")))
+    (button :class "session-btn suspend"
+            :tooltip "Suspend"
+            :onclick "systemctl suspend"
+      "")
+    (button :class "session-btn logout"
+            :tooltip "Logout"
+            :onclick "hyprctl dispatch exit"
+      "")))

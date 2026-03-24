@@ -1,8 +1,15 @@
 ;; Clock data (24h format)
-(defpoll clock_time :interval "30s"
-	"date '+%d/%m | %H:%M'")
+(defvar show_seconds false)
+
+(defpoll clock_hm :interval "30s"
+	"date '+%H:%M'")
+
+(defpoll clock_hms :interval "1s"
+	"date '+%H:%M:%S'")
 
 ;; Clock widget
 (defwidget clock []
-	(box :class "pill"
-		(label :text "${clock_time}")))
+	(button :class "pill"
+		:tooltip "Click to toggle seconds"
+		:onclick "${show_seconds ? 'eww update show_seconds=false' : 'eww update show_seconds=true'}"
+		(label :text "${show_seconds ? clock_hms : clock_hm}")))

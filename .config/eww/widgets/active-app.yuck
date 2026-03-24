@@ -4,16 +4,20 @@
 
 ;; Active app widget
 (defwidget active-app []
-  (box :class "pill active-app"
-       :orientation "h"
-     :space-evenly false
-     :visible "${active_app_data.focused}"
-       :spacing 8
-    (image :path "${active_app_data.icon}"
-     :visible "${active_app_data.icon != ''}"
-           :image-width 18
-           :image-height 18)
-    (label :class "active-app-name"
-           :text "${active_app_data.name}"
-           :limit-width 30
-           :truncate true)))
+  (box 
+    :class "pill active-app"
+    :orientation "h"
+    :space-evenly false
+    :visible "${active_app_data.focused}"
+    :spacing 4
+    (image 
+      :class "active-app-icon"
+      :path "${active_app_data.icon}"
+      :visible "${active_app_data.icon != ''}"
+      :image-width 18
+      :image-height 18)
+    (label 
+      :class "active-app-name"
+      :text "${active_app_data.name}"
+      :limit-width 30
+      :truncate true)))

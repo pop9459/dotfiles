@@ -8,7 +8,9 @@
 
 ;; Workspace widget
 (defwidget workspaces []
-  (box :class "workspaces-widget pill"
+  (box 
+    :class "workspaces-widget pill"
+    :spacing 4
     (for ws in workspaces_data
       (button 
         :class "workspace-btn ${ws.active ? 'active' : 'inactive'}"

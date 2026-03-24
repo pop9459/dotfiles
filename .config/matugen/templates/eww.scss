@@ -4,27 +4,33 @@
 /* Global styles */
 * {
   all: unset;
-  font-family: "JetBrainsMono Nerd Font", monospace;
-  font-size: 14px;
+  margin: 0px;
+  padding: 0px;
+
+  font-family: "JetBrainsMono Nerd Font Propo";
+  font-size: 16px;
   font-weight: 900;
 }
 
 label {
   // Yeah this is weird
-  padding: 0px 10px;
+  padding: 0px 6px;
+}
+
+.active-app-icon{
+  padding: 0px 6px;
 }
 
 /* Main bar */
 .bar {
   background-color: transparent;
-  padding: 14px 14px;
+  padding: 10px 10px 0px 10px;
 }
 
 /* Pill-shaped widget base style */
 .pill {
   background-color: {{ base }};
-  padding: 6px 6px;
-  margin: 0px;
+  padding: 4px;
   border: 2px solid;
   border-color: inherit;
   transition: all 0.5s ease;
@@ -54,11 +60,13 @@ label {
 
 /* Workspaces widget */
 .workspace-btn {
-  min-width: 28px;
-  min-height: 28px;
-  padding: 0px;
-  margin: 0px 2px;
+  min-width: 26px;
+  min-height: 26px;
   transition: all 0.5s ease;
+}
+
+.workspace-btn label {
+  margin: 0px;
 }
 
 .workspace-btn.active {
@@ -75,4 +83,19 @@ label {
   background-color: {{ surface1 }};
 }
 
-// 
+// /* Session controls / power menu */
+// .session-controls {
+//   padding: 4px 8px;
+// }
+
+// .bigpowermenu {
+//   padding: 0px;
+// }
+
+.session-btn {
+  transition: all 0.2s ease;
+}
+
+.systray {
+  padding: 0px 8px;
+}

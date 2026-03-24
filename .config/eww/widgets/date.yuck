@@ -1,0 +1,15 @@
+;; Date data (toggle year visibility)
+(defvar show_year true)
+
+(defpoll date_short :interval "30s"
+	"date '+%d/%m'")
+
+(defpoll date_full :interval "30s"
+	"date '+%d/%m/%Y'")
+
+;; Date widget
+(defwidget date []
+	(button :class "pill"
+		:tooltip "Click to toggle year"
+		:onclick "${show_year ? 'eww update show_year=false' : 'eww update show_year=true'}"
+		(label :text "${show_year ? date_full : date_short}")))

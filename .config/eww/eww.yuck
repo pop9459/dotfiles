@@ -1,4 +1,5 @@
 (include "widgets/workspaces.yuck")
+(include "widgets/date.yuck")
 (include "widgets/clock.yuck")
 (include "widgets/session-controls.yuck")
 (include "widgets/active-app.yuck")
@@ -12,6 +13,7 @@
        :halign "start"
        :spacing 10
     ;; Add left widgets here
+    ;;; TODO: System resource monitor
     (workspaces)  
     (active-app)
   )
@@ -25,7 +27,8 @@
        :halign "center"
        :spacing 10
     ;; Add center widgets here
-    (clock :class "seq-3")
+    (date)
+    (clock)
   )
 )
 
@@ -38,6 +41,9 @@
        :spacing 10
     ;; Add right widgets here
     (systray-pill)
+    ;; TODO: Volume control + media controls
+    ;; TODO: Wifi
+    ;; TODO: Bluetooth
     (session-controls)
   )
 )
@@ -67,7 +73,7 @@
   :geometry (geometry :x "0%"
                       :y "0%"
                       :width "100%"
-                      :height "2.5%"
+                      ; :height "5%" // Set in CSS for easier tweaking
                       :anchor "top center")
   :reserve (struts :side "top" :distance "32px")
   :stacking "fg"

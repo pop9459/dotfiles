@@ -1,0 +1,10 @@
+;; System tray widgets for Eww
+(defwidget systray-pill []
+	(box :class "pill systray"
+        (systray
+          :orientation "h"
+          :spacing 8
+          :icon-size 18
+        )
+    )
+)
