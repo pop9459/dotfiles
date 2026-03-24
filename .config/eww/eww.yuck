@@ -10,13 +10,13 @@
        :space-evenly false
        :halign "start"
        :spacing 10
-    ;; Add left widgets here (e.g., workspaces, application launcher, etc.)
-    (workspaces)  
-    (active-app)
+    ;; Add left widgets here
+    (workspaces :class "seq-1")  
+    (active-app :class "seq-2")
   )
 )
 
-;; Center section of the bar (placeholder for future widgets)
+;; Center section of the bar
 (defwidget center []
   (box :class "bar-section"
        :orientation "h"
@@ -24,19 +24,26 @@
        :halign "center"
        :spacing 10
     ;; Add center widgets here
-    (clock)
+    (clock :class "seq-3")
   )
 )
 
-;; Right section of the bar (placeholder for future widgets)
+;; Right section of the bar 
 (defwidget right []
   (box :class "bar-section"
        :orientation "h"
        :space-evenly false
        :halign "end"
        :spacing 10
-    ;; Add right widgets here (e.g., clock, system tray, etc.)
-    (session-controls)
+    ;; Add right widgets here
+    (session-controls :class "seq-4")
+  )
+)
+
+(defwidget spacer []
+  (box
+    :class "spacer"
+    :hexpand true
   )
 )
 
@@ -44,6 +51,7 @@
 (defwidget bar []
   (centerbox :class "bar"
              :orientation "h"
+             :space-evenly false
     (left)
     (center)
     (right)

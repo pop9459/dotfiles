@@ -6,71 +6,68 @@
   all: unset;
   font-family: "JetBrainsMono Nerd Font", monospace;
   font-size: 14px;
+  font-weight: 900;
+}
+
+label {
+  padding: 0px 10px;
 }
 
 /* Main bar */
 .bar {
   background-color: transparent;
-  padding: 4px 10px;
-}
-
-/* Bar sections */
-.bar-section {
-  padding: 0px 5px;
+  padding: 14px 14px;
 }
 
 /* Pill-shaped widget base style */
 .pill {
   background-color: {{ base }};
-  border-radius: 20px;
-  padding: 6px 16px;
+  padding: 6px 6px;
   margin: 0px;
-  border: 1px solid {{ blue }};
-  transition: all 0.2s ease;
+  border: 2px solid;
+  transition: all 0.5s ease;
 }
 
-.pill:hover {
-  background-color: {{ mantle }};
-  border-color: {{ sapphire }};
+.pill:nth-child(4n-3) {
+  border-color: {{ blue }};
+  color: {{ blue }};
 }
 
-/* Workspaces widget */
-.workspaces-widget {
-  padding: 4px 12px;
+.pill:nth-child(4n-2) {
+  border-color: {{ green }};
+  color: {{ green }};
+}
+
+.pill:nth-child(4n-1) {
+  border-color: {{ yellow }};
+  color: {{ yellow }};
+}
+
+.pill:nth-child(4n) {
+  border-color: {{ red }};
+  color: {{ red }};
 }
 
 /* Workspace buttons */
 .workspace-btn {
   min-width: 28px;
   min-height: 28px;
-  border-radius: 50%;
   padding: 0px;
   margin: 0px 2px;
-  font-weight: bold;
-  transition: all 0.2s ease;
+  transition: all 0.5s ease;
 }
 
-/* Active workspace */
 .workspace-btn.active {
   background-color: {{ blue }};
-  color: {{ crust }};
-  border: 2px solid {{ blue }};
+  color: {{ base }};
 }
 
-.workspace-btn.active:hover {
-  background-color: {{ sapphire }};
-  border-color: {{ sapphire }};
-}
-
-/* Inactive workspace */
 .workspace-btn.inactive {
-  background-color: {{ surface0 }};
-  color: {{ text }};
-  border: 2px solid {{ surface1 }};
+  background-color: {{ base }};
+  color: {{ blue }};
 }
 
 .workspace-btn.inactive:hover {
   background-color: {{ surface1 }};
-  color: {{ text }};
-  border-color: {{ blue }};
 }
+
