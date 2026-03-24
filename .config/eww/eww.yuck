@@ -2,6 +2,7 @@
 (include "widgets/clock.yuck")
 (include "widgets/session-controls.yuck")
 (include "widgets/active-app.yuck")
+(include "widgets/systray.yuck")
 
 ;; Left section of the bar
 (defwidget left []
@@ -11,8 +12,8 @@
        :halign "start"
        :spacing 10
     ;; Add left widgets here
-    (workspaces :class "seq-1")  
-    (active-app :class "seq-2")
+    (workspaces)  
+    (active-app)
   )
 )
 
@@ -36,7 +37,8 @@
        :halign "end"
        :spacing 10
     ;; Add right widgets here
-    (session-controls :class "seq-4")
+    (systray-pill)
+    (session-controls)
   )
 )
 

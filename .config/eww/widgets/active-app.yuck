@@ -6,12 +6,13 @@
 (defwidget active-app []
   (box :class "pill active-app"
        :orientation "h"
-    :visible "${active_app_data.focused}"
+     :space-evenly false
+     :visible "${active_app_data.focused}"
        :spacing 8
     (image :path "${active_app_data.icon}"
      :visible "${active_app_data.icon != ''}"
-           :image-width 16
-           :image-height 16)
+           :image-width 18
+           :image-height 18)
     (label :class "active-app-name"
            :text "${active_app_data.name}"
            :limit-width 30
