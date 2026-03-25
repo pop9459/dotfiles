@@ -36,7 +36,7 @@ label {
   transition: all 0.5s ease;
 }
 
-// Color cycling for pills
+// // Color cycling for pills
 // TODO - Replace with static colors
 .pill:nth-child(4n-3) {
   border-color: {{ blue }};
@@ -93,9 +93,73 @@ label {
 // }
 
 .session-btn {
+  // min-width: 26px;
+  // min-height: 26px;
+  // padding: 0px 8px;
   transition: all 0.2s ease;
 }
 
+// .session-controls {
+//   padding: 2px 4px;
+// }
+
+// .session-main {
+//   padding: 0px 8px;
+// }
+
+// .session-extra {
+//   padding-left: 2px;
+// }
+
 .systray {
   padding: 0px 8px;
+}
+
+// .color-blue {
+//   color: {{ blue }};
+//   border-color: {{ blue }};
+// }
+
+// .color-green {
+//   color: {{ green }};
+//   border-color: {{ green }};
+// }
+
+// .color-yellow {
+//   color: {{ yellow }};
+//   border-color: {{ yellow }};
+// }
+
+// .color-red {
+//   color: {{ red }};
+//   border-color: {{ red }};
+// }
+
+.reference-colors{
+  color: #f5e0dc; //"rosewater": "#f5e0dc",
+  color: #f2cdcd; //"flamingo": "#f2cdcd",
+  color: #f5c2e7; //"pink": "#f5c2e7",
+  color: #cba6f7; //"mauve": "#cba6f7",
+  color: #f38ba8; //"red": "#f38ba8",
+  color: #eba0ac; //"maroon": "#eba0ac",
+  color: #fab387; //"peach": "#fab387",
+  color: #f9e2af; //"yellow": "#f9e2af",
+  color: #a6e3a1; //"green": "#a6e3a1",
+  color: #94e2d5; //"teal": "#94e2d5",
+  color: #89dceb; //"sky": "#89dceb",
+  color: #74c7ec; //"sapphire": "#74c7ec",
+  color: #89b4fa; //"blue": "#89b4fa",
+  color: #b4befe; //"lavender": "#b4befe",
+  color: #cdd6f4; //"text": "#cdd6f4",
+  color: #bac2de; //"subtext1": "#bac2de",
+  color: #a6adc8; //"subtext0": "#a6adc8",
+  color: #9399b2; //"overlay2": "#9399b2",
+  color: #7f849c; //"overlay1": "#7f849c",
+  color: #6c7086; //"overlay0": "#6c7086",
+  color: #585b70; //"surface2": "#585b70",
+  color: #45475a; //"surface1": "#45475a",
+  color: #313244; //"surface0": "#313244",
+  color: #1e1e2e; //"base": "#1e1e2e",
+  color: #181825; //"mantle": "#181825",
+  color: #11111b; //"crust": "#11111b"
 }

@@ -7,7 +7,7 @@
     (button :class "session-btn shutdown"
             :tooltip "Shutdown"
             :onclick "systemctl poweroff"
-      "")
+      "⏻")
     (button :class "session-btn reboot"
             :tooltip "Reboot"
             :onclick "systemctl reboot"
@@ -19,7 +19,7 @@
     (button :class "session-btn suspend"
             :tooltip "Suspend"
             :onclick "systemctl suspend"
-      "")
+      "󰤄")
     (button :class "session-btn logout"
             :tooltip "Logout"
             :onclick "hyprctl dispatch exit"
