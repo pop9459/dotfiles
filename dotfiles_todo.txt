@@ -1,0 +1,8 @@
+wallpaper switcher
+sound widget
+media widget
+fix media keys
+theme hyprlock
+clipboard widget
+screenshot tool 
+customize terminal prompt
