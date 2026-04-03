@@ -22,7 +22,7 @@ desktop:
     - noto-fonts-emoji  # Emoji support
     - ttf-font-awesome  # Icon font for UI elements
   aur:
-    - eww-wayland  # Status bar widget system
+    - eww # Status bar widget system
     - uwsm  # Universal Wayland session manager
 
 wayland:

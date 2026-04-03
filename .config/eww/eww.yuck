@@ -4,6 +4,8 @@
 (include "widgets/session-controls.yuck")
 (include "widgets/active-app.yuck")
 (include "widgets/systray.yuck")
+(include "widgets/bluetooth.yuck")
+(include "widgets/wifi.yuck")
 
 ;; Left section of the bar
 (defwidget left []
@@ -42,8 +44,8 @@
     ;; Add right widgets here
     (systray-pill)
     ;; TODO: Volume control + media controls
-    ;; TODO: Wifi
-    ;; TODO: Bluetooth
+    (wifi-widget)
+    (bluetooth)
     (session-controls)
   )
 )
