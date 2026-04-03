@@ -2,10 +2,6 @@
 # Font Installation Module
 # Installs essential fonts for the desktop environment
 
-# Source utilities
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/utils.sh"
-
 install_fonts() {
     log_info "Installing fonts..."
     

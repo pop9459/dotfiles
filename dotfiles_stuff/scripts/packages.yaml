@@ -49,3 +49,4 @@ dev-tools:
     - zen-browser-bin  # Zen browser
     - lazydocker-bin  # Docker TUI management
     - fisher  # Fish shell plugin manager
+    - onlyoffice-bin
