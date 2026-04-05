@@ -1,11 +1,18 @@
 # Package definitions for dotfiles installation
-# Categories: desktop, wayland, dev-tools
-# Each package can be from official repos or AUR
+# Categories: system, desktop, wayland, dev-tools
+# Paru handles both official and AUR packages
+
+system:
+  description: "System Utilities - Performance, updates, and optimization"
+  packages:
+    - cachy-update  # CachyOS system updater
+    - bpftune-git  # BPF-based auto-tuning for system performance
+    - profile-sync-daemon  # Sync browser profiles to RAM for speed
 
 desktop:
   description: "Desktop Environment - Hyprland and essential GUI tools"
-  official:
-    - hyprland
+  packages:
+    - hyprland  # Wayland compositor
     - ly  # Login manager
     - hyprlauncher  # Application launcher
     - mako  # Notification daemon
@@ -21,32 +28,32 @@ desktop:
     - noto-fonts-cjk  # CJK language support
     - noto-fonts-emoji  # Emoji support
     - ttf-font-awesome  # Icon font for UI elements
-  aur:
-    - eww # Status bar widget system
+    - eww  # Status bar widget system
     - uwsm  # Universal Wayland session manager
 
 wayland:
   description: "Wayland Essentials - Clipboard, portals, and utilities"
-  official:
+  packages:
     - wl-clipboard  # Wayland clipboard utilities
     - xdg-desktop-portal-hyprland  # Desktop portal for Hyprland
     - kanshi  # Multi-monitor management
     - grim  # Screenshot tool
     - slurp  # Region selector for screenshots
-  aur:
     - hyprpolkitagent  # Polkit authentication agent
 
 dev-tools:
   description: "Development Tools - Containers, editors, browsers"
-  official:
+  packages:
     - docker  # Container platform
     - docker-compose  # Multi-container orchestration
+    - neovim  # Modern vim-based text editor
     - code  # Visual Studio Code (OSS)
     - fzf  # Fuzzy finder for command line
     - fd  # Fast file finder (used by fzf)
     - fish  # Fish shell
-  aur:
+    - fisher  # Fish shell plugin manager
+    - github-cli  # GitHub CLI (gh command)
+    - github-copilot-cli  # GitHub Copilot CLI
     - zen-browser-bin  # Zen browser
     - lazydocker-bin  # Docker TUI management
-    - fisher  # Fish shell plugin manager
-    - onlyoffice-bin
+    - onlyoffice-bin  # Office suite
