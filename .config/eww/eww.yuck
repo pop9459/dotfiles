@@ -6,6 +6,7 @@
 (include "widgets/systray.yuck")
 (include "widgets/bluetooth.yuck")
 (include "widgets/wifi.yuck")
+(include "widgets/battery.yuck")
 
 ;; Left section of the bar
 (defwidget left []
@@ -46,6 +47,7 @@
     ;; TODO: Volume control + media controls
     (wifi-widget)
     (bluetooth)
+    (battery)
     (session-controls)
   )
 )

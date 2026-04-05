@@ -1,0 +1,16 @@
+;; Battery indicator widget
+(defpoll battery_data :interval "10s" :initial "{\"available\":false,\"capacity\":0,\"status\":\"\",\"icon\":\"\",\"label\":\"\"}"
+  `bash ~/.config/eww/scripts/battery.sh`)
+
+(defwidget battery []
+  (box :class "pill"
+    (revealer :reveal "${battery_data.available}"
+      :transition "slideleft"
+      :duration "300ms"
+      (button
+        :class "battery-widget ${battery_data.status == 'Charging' ? 'is-charging' : battery_data.capacity <= 20 ? 'is-low' : ''}"
+        (label :text "${battery_data.label}" :limit-width 18 :truncate true)
+      )
+    )
+  )
+)
