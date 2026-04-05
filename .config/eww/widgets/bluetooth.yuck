@@ -1,0 +1,11 @@
+;; Bluetooth data
+(defpoll bluetooth_data :interval "5s" :initial "{\"available\":false,\"powered\":false,\"connected\":false,\"count\":0,\"name\":\"\",\"label\":\"BT N/A\"}"
+  `bash ~/.config/eww/scripts/bluetooth.sh status`)
+
+(defwidget bluetooth []
+  (button
+    :class "pill bluetooth-widget ${bluetooth_data.powered ? 'is-on' : 'is-off'}"
+    :onclick "bash ~/.config/eww/scripts/bluetooth.sh toggle"
+    (label :text "${bluetooth_data.label}" :limit-width 20 :truncate true)
+  )
+)

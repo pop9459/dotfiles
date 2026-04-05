@@ -1,0 +1,126 @@
+;; Wi-Fi status + network data
+(defvar wifi_panel_open false)
+(defvar wifi_selected_b64 "")
+(defvar wifi_password "")
+(defvar wifi_message "")
+(defvar wifi_refreshing false)
+
+(defpoll wifi_status :interval "3s" :initial "{\"available\":false,\"enabled\":false,\"connected\":false,\"ssid\":\"\",\"signal\":0,\"icon\":\"󰤭\",\"label\":\"Wi-Fi N/A\",\"error\":\"\"}"
+  `python3 ~/.config/eww/scripts/wifi.py status`)
+
+(defpoll wifi_networks :interval "12s" :initial "[]"
+  `python3 ~/.config/eww/scripts/wifi.py list`)
+
+(defwidget wifi-widget []
+  (button
+    :class "pill wifi-widget ${wifi_status.enabled ? 'is-on' : 'is-off'}"
+    :onclick "if [ '${wifi_panel_open}' = 'true' ]; then eww update wifi_panel_open=false wifi_selected_b64='' wifi_password='' wifi_message='' wifi_refreshing=false; eww close wifi-panel; eww close wifi-dismiss; else eww update wifi_panel_open=true wifi_message=''; eww open wifi-dismiss; eww open wifi-panel; fi"
+    (label :text "${wifi_status.label}" :limit-width 24 :truncate true)
+  )
+)
+
+(defwidget wifi-panel-content []
+  (box :class "wifi-panel"
+       :orientation "v"
+       :space-evenly false
+       :spacing 6
+
+    (box :class "wifi-panel-header"
+         :orientation "h"
+         :space-evenly false
+         :halign "fill"
+         :hexpand true
+      (label :class "wifi-panel-title" :text "Wi-Fi")
+      (button :class "wifi-close"
+              :onclick "eww update wifi_panel_open=false wifi_selected_b64='' wifi_password='' wifi_message='' wifi_refreshing=false; eww close wifi-panel; eww close wifi-dismiss"
+        "󰅙")
+    )
+
+    (box :class "wifi-panel-controls"
+         :orientation "h"
+         :space-evenly false
+         :spacing 6
+      (button :class "wifi-toggle-switch ${wifi_status.enabled ? 'is-on' : 'is-off'}"
+              :onclick "python3 ~/.config/eww/scripts/wifi.py toggle >/dev/null 2>&1; eww update wifi_selected_b64='' wifi_password=''; eww poll wifi_status; eww poll wifi_networks"
+        (box :class "wifi-toggle-track"
+          (box :class "wifi-toggle-knob")))
+
+      (label :class "wifi-toggle-label" :text "${wifi_status.enabled ? 'On' : 'Off'}")
+
+      (button :class "wifi-refresh ${wifi_refreshing ? 'refreshing' : ''}"
+              :onclick "sh -c \"eww update wifi_refreshing=true; eww poll wifi_status; eww poll wifi_networks; sleep 0.8; eww update wifi_refreshing=false\""
+        "${wifi_refreshing ? '󰑐...' : '󰑐'}")
+    )
+
+    (label :class "wifi-current" :text "${wifi_status.connected ? wifi_status.ssid : wifi_status.enabled ? 'Not connected' : 'Wi-Fi disabled'}" :limit-width 36 :truncate true)
+
+    (box :class "wifi-list"
+         :orientation "v"
+         :space-evenly false
+         :spacing 0
+      (for net in wifi_networks
+        (box :orientation "v" :space-evenly false :spacing 0
+          (button :class "wifi-network ${net.active ? 'active' : ''}"
+                  :onclick "if [ '${net.secure}' = 'true' ]; then eww update wifi_selected_b64='${net.ssid_b64}' wifi_password='' wifi_message=''; else python3 ~/.config/eww/scripts/wifi.py connect --ssid-b64 '${net.ssid_b64}' >/dev/null 2>&1 && eww update wifi_message='Connected to ${net.ssid}' wifi_selected_b64='' wifi_password='' || eww update wifi_message='Failed to connect to ${net.ssid}'; eww poll wifi_status; eww poll wifi_networks; fi"
+            (box :orientation "h" :space-evenly false :spacing 4
+              (label :class "wifi-network-main" :text "${net.active ? '󰄬 ' : ''}${net.ssid}" :limit-width 26 :truncate true)
+              (label :class "wifi-network-meta" :text "${net.signal}% ${net.secure ? '󰌾' : '󰌿'}")))
+
+          (revealer :visible "${wifi_selected_b64 == net.ssid_b64 && net.secure}"
+                    :reveal "${wifi_selected_b64 == net.ssid_b64 && net.secure}"
+                    :transition "none"
+                    :duration "0ms"
+            (box :class "wifi-password-row"
+                 :orientation "h"
+                 :space-evenly false
+                 :spacing 4
+              (input :class "wifi-password-input"
+                     :text wifi_password
+                     :placeholder "Password"
+                     :onchange "eww update wifi_password='{}'")
+              (button :class "wifi-connect"
+                      :onclick "python3 ~/.config/eww/scripts/wifi.py connect --ssid-b64 '${net.ssid_b64}' --password '${wifi_password}' >/dev/null 2>&1 && eww update wifi_message='Connected to ${net.ssid}' wifi_selected_b64='' wifi_password='' || eww update wifi_message='Connection failed for ${net.ssid}'; eww poll wifi_status; eww poll wifi_networks"
+                "Connect")
+            )
+          )
+        )
+      )
+    )
+
+    (revealer :reveal "${wifi_message != ''}"
+      (label :class "wifi-message" :text wifi_message :limit-width 36 :truncate true)
+    )
+  )
+)
+
+(defwindow wifi-panel
+  :monitor 0
+  :windowtype "utility"
+  :focusable true
+  :floating true
+  :stacking "fg"
+  :exclusive false
+  :geometry (geometry :x "10px"
+                      :y "20px"
+                      :width "360px"
+                      :height "520px"
+                      :anchor "top right")
+  (wifi-panel-content)
+)
+
+(defwindow wifi-dismiss
+  :monitor 0
+  :windowtype "dock"
+  :focusable true
+  :floating true
+  :stacking "fg"
+  :exclusive false
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "100%"
+                      :height "100%"
+                      :anchor "top left")
+  (eventbox :class "wifi-dismiss-layer"
+            :onclick "eww update wifi_panel_open=false wifi_selected_b64='' wifi_password='' wifi_message='' wifi_refreshing=false; eww close wifi-panel; eww close wifi-dismiss"
+    (box :hexpand true :vexpand true))
+)
