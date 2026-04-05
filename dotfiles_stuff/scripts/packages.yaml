@@ -30,7 +30,8 @@ desktop:
     - ttf-font-awesome  # Icon font for UI elements
     - eww  # Status bar widget system
     - uwsm  # Universal Wayland session manager
-
+    - socat # For workspaces widget
+  
 wayland:
   description: "Wayland Essentials - Clipboard, portals, and utilities"
   packages:
