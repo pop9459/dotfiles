@@ -5,33 +5,23 @@ import "../theme"
 
 // Reusable pill-style container (rectangular with colored border)
 Rectangle {
-    id: pill
-    
-    property int pillIndex: 0  // For color cycling
-    property color borderColor: Colors.cycleColor(pillIndex)
-    property alias contentItem: contentLoader.sourceComponent
+    id: widget
+
+    property int pillIndex: 0
+    property color accentColor: Colors.cycleColor(pillIndex)
+    property int padding: 3
+    default property alias contentData: contentRoot.data
     
     color: Colors.base
-    border.color: borderColor
+    border.color: accentColor
     border.width: 2
-    radius: 0  // No rounded corners
-    
-    // Consistent padding
-    implicitWidth: contentLoader.item ? contentLoader.item.implicitWidth + 8 : 32
-    implicitHeight: contentLoader.item ? contentLoader.item.implicitHeight + 8 : 32
-    
-    Loader {
-        id: contentLoader
+    radius: 0
+    implicitWidth: contentRoot.childrenRect.width + (padding * 2) + (border.width * 2)
+    implicitHeight: contentRoot.childrenRect.height + (padding * 2) + (border.width * 2)
+
+    Item {
+        id: contentRoot
         anchors.fill: parent
-        anchors.margins: 4
-    }
-    
-    // Smooth transitions
-    Behavior on border.color {
-        ColorAnimation { duration: 500; easing.type: Easing.InOutQuad }
-    }
-    
-    Behavior on color {
-        ColorAnimation { duration: 500; easing.type: Easing.InOutQuad }
+        anchors.margins: widget.padding
     }
 }
