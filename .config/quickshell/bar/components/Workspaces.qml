@@ -17,78 +17,47 @@ Rectangle {
     
     property var workspaceData: []
     property int activeWorkspace: 1
+    property var workspaceBuffer: []
     
-    // Monitor Hyprland socket for workspace changes
-    Process {
-        id: workspaceMonitor
-        command: ["bash", "-c", "socat -U UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock STDOUT"]
+    // Timer to refresh workspaces periodically
+    Timer {
+        interval: 1000
         running: true
+        repeat: true
+        triggeredOnStart: true
         
-        stdout: SplitParser {
-            splitMarker: "\n"
-            
-            onRead: function(data) {
-                // Reload workspace data on any workspace event
-                if (data.includes("workspace>>") || data.includes("createworkspace>>") || data.includes("destroyworkspace>>")) {
-                    updateWorkspaces.running = true;
-                }
-            }
+        onTriggered: {
+            refreshWorkspaces.running = true;
         }
     }
     
-    // Get initial workspace state
+    // Get workspace list and active workspace
     Process {
-        id: initialWorkspaces
-        command: ["bash", "-c", "hyprctl workspaces -j | jq -r '.[].id' | sort -n"]
-        running: true
-        
-        stdout: SplitParser {
-            splitMarker: "\n"
-            
-            onRead: function(data) {
-                if (data.trim() !== "") {
-                    var wsIds = data.trim().split("\n").map(Number).filter(function(n) { return !isNaN(n); });
-                    if (wsIds.length > 0) {
-                        workspaceData = wsIds;
-                        updateActiveWorkspace.running = true;
-                    }
-                }
-            }
-        }
-    }
-    
-    // Get active workspace
-    Process {
-        id: updateActiveWorkspace
-        command: ["bash", "-c", "hyprctl activeworkspace -j | jq -r '.id'"]
+        id: refreshWorkspaces
+        command: ["bash", "-c", "hyprctl workspaces -j | jq -r '.[].id' | sort -n | tr '\\n' ',' && echo && hyprctl activeworkspace -j | jq -r '.id'"]
         running: false
         
         stdout: SplitParser {
             splitMarker: "\n"
             
-            onRead: function(data) {
-                if (data.trim() !== "") {
-                    activeWorkspace = parseInt(data.trim());
-                }
-            }
-        }
-    }
-    
-    // Update workspace list
-    Process {
-        id: updateWorkspaces
-        command: ["bash", "-c", "hyprctl workspaces -j | jq -r '.[].id' | sort -n"]
-        running: false
-        
-        stdout: SplitParser {
-            splitMarker: "\n"
+            property int lineCount: 0
             
             onRead: function(data) {
                 if (data.trim() !== "") {
-                    var wsIds = data.trim().split("\n").map(Number).filter(function(n) { return !isNaN(n); });
-                    if (wsIds.length > 0) {
-                        workspaceData = wsIds;
-                        updateActiveWorkspace.running = true;
+                    if (lineCount === 0) {
+                        // First line: comma-separated workspace IDs
+                        var wsIds = data.trim().split(',').map(Number).filter(function(n) { return !isNaN(n); });
+                        if (wsIds.length > 0) {
+                            workspaceData = wsIds;
+                        }
+                        lineCount = 1;
+                    } else {
+                        // Second line: active workspace ID
+                        var activeId = parseInt(data.trim());
+                        if (!isNaN(activeId)) {
+                            activeWorkspace = activeId;
+                        }
+                        lineCount = 0;
                     }
                 }
             }
