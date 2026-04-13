@@ -37,6 +37,15 @@ PillWidget {
                     font.bold: true
                 }
 
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        // Switch to the clicked workspace
+                        Hyprland.dispatch("workspace " + (modelData.id) )
+                    }   
+                
+                }   
+            
             }
 
         }
