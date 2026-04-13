@@ -14,11 +14,9 @@ PillWidget {
         anchors.centerIn: parent
         text: Qt.formatDateTime(new Date(), "HH:mm")
 
-        font {
-            family: root.fontFamily
-            pixelSize: root.scaledFontSize
-            bold: true
-        }
+        font.family: root.fontFamily
+        font.pixelSize: root.scaledFontSize
+        font.bold: true
 
     }
 
