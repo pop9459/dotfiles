@@ -50,15 +50,16 @@ Scope {
                         implicitHeight: leftRow.implicitHeight
 
                         RowLayout {
-                            WorkspaceWidget {
-                                pillIndex: 0
-                            }
-
                             id: leftRow
 
                             anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
                             spacing: root.scaledSpacing
+
+                            WorkspaceWidget {
+                                pillIndex: 0
+                            }
+
                         }
 
                     }
@@ -76,10 +77,14 @@ Scope {
                             spacing: root.scaledSpacing
 
                             DateWidget {
+                                id: dateWidget
+
                                 pillIndex: 1
                             }
 
                             ClockWidget {
+                                id: clockWidget
+
                                 pillIndex: 2
                             }
 
@@ -103,29 +108,33 @@ Scope {
                             spacing: root.scaledSpacing
 
                             BatteryWidget {
+                                pillIndex: 1
+                            }
+
+                            SessionControllsWidget {
                                 pillIndex: 3
                             }
+
                         }
 
                     }
 
                 }
 
+                Timer {
+                    interval: 15000 // Refresh every 15 seconds to update the time and date
+                    running: true
+                    repeat: true
+                    onTriggered: {
+                        clockWidget.refresh();
+                        dateWidget.refresh();
+                    }
+                }
+
             }
 
         }
 
-    }
-
-    // Processes and timers here...
-    Timer {
-        interval: 30000
-        running: true
-        repeat: true
-        onTriggered: {
-            clock.text = Qt.formatDateTime(new Date(), "HH:mm");
-            date.text = Qt.formatDateTime(new Date(), "dd/MM");
-        }
     }
 
 }

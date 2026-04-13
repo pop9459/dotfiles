@@ -7,17 +7,21 @@ PillWidget {
 
     property int spacingSize: widget.padding
 
+    function refresh() {
+        dateLabel.text = Qt.formatDateTime(new Date(), "dd/MM");
+    }
+
+    Component.onCompleted: refresh()
+
     Text {
-        id: clock
+        id: dateLabel
 
         color: widget.accentColor
         anchors.centerIn: parent
-        text: Qt.formatDateTime(new Date(), "dd/MM")
-
+        text: "00/00"
         font.family: root.fontFamily
         font.pixelSize: root.scaledFontSize
         font.bold: true
-
     }
 
 }
