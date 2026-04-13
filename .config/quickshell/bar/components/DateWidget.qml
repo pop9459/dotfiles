@@ -12,7 +12,7 @@ PillWidget {
 
         color: widget.accentColor
         anchors.centerIn: parent
-        text: Qt.formatDateTime(new Date(), "HH:mm")
+        text: Qt.formatDateTime(new Date(), "dd/MM")
 
         font {
             family: root.fontFamily
