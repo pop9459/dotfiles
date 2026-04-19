@@ -40,8 +40,7 @@ wayland:
     - wl-clipboard  # Wayland clipboard utilities
     - xdg-desktop-portal-hyprland  # Desktop portal for Hyprland
     - kanshi  # Multi-monitor management
-    - grim  # Screenshot tool
-    - slurp  # Region selector for screenshots
+    - hyprshot  # Hyprland-native screenshot utility
     - hyprpolkitagent  # Polkit authentication agent
 
 dev-tools:
