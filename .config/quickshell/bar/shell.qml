@@ -93,21 +93,21 @@ Scope {
                         Layout.preferredWidth: 1
                         implicitHeight: rightRow.implicitHeight
 
-                         RowLayout {
-                             // Add right-side widgets here.
+                        RowLayout {
+                            // Add right-side widgets here.
 
-                             id: rightRow
+                            id: rightRow
 
-                             anchors.right: parent.right
-                             anchors.verticalCenter: parent.verticalCenter
-                             spacing: root.scaledSpacing
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: root.scaledSpacing
 
-                             BatteryWidget {
-                                 pillIndex: 3
-                             }
-                         }
+                            BatteryWidget {
+                                pillIndex: 3
+                            }
+                        }
 
-                     }
+                    }
 
                 }
 
