@@ -8,6 +8,8 @@ system:
     - cachy-update  # CachyOS system updater
     - bpftune-git  # BPF-based auto-tuning for system performance
     - profile-sync-daemon  # Sync browser profiles to RAM for speed
+    - playerctl # To controll media playback
+    - brightnessctl # To controll display brightness
 
 desktop:
   description: "Desktop Environment - Hyprland and essential GUI tools"
