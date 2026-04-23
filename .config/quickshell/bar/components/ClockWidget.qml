@@ -24,4 +24,13 @@ PillWidget {
         font.bold: true
     }
 
+            Timer {
+                interval: 15000 // Refresh every 15 seconds to update the time and date
+                running: true
+                repeat: true
+                onTriggered: {
+                    clockWidget.refresh();
+                    dateWidget.refresh();
+                }
+            }
 }
