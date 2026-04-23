@@ -16,7 +16,7 @@ Rectangle {
 
     color: Colors.base
     border.color: accentColor
-    border.width: 2
+    border.width: root.borderWidth
     radius: 0
     implicitWidth: contentRoot.childrenRect.width + (padding * 2)
     implicitHeight: root.barHeight

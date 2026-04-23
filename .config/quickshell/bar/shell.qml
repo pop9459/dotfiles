@@ -27,6 +27,7 @@ Scope {
                 readonly property int scaledFontSize: fontSize
                 readonly property int scaledMargin: 10 // Bar outside margin - same as hyprland's outer gap size for consistency
                 readonly property int scaledSpacing: 8
+                readonly property int borderWidth: 2
                 property int fontSize: 18
                 property int barHeight: 38
 
@@ -34,7 +35,7 @@ Scope {
                 anchors.left: true
                 anchors.right: true
                 color: root.colBg
-                implicitHeight: root.barHeight + root.scaledMargin // One margin here and the other one is done with the anchors.margins of the content
+                implicitHeight: root.barHeight + root.scaledMargin + root.borderWidth // One margin here and the other one is done with the anchors.margins of the content
 
                 RowLayout {
                     id: barContent
@@ -138,3 +139,4 @@ Scope {
     }
 
 }
+
