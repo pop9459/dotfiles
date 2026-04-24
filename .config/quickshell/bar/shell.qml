@@ -59,6 +59,7 @@ Scope {
 
                             WorkspaceWidget {
                                 pillIndex: 0
+                                extraSideMargin: false
                             }
 
                         }
@@ -114,6 +115,7 @@ Scope {
 
                             SessionControllsWidget {
                                 pillIndex: 3
+                                extraSideMargin: false
                             }
 
                         }

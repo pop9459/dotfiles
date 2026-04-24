@@ -11,6 +11,8 @@ Rectangle {
     property color accentColor: Colors.cycleColor(pillIndex)
     property int padding: 5
     property int textMargin: 5
+    property bool extraSideMargin: true
+    property int extraSideMarginSize: 10
     readonly property alias contentItem: contentRoot
     default property alias contentData: contentRoot.data
 
@@ -18,7 +20,7 @@ Rectangle {
     border.color: accentColor
     border.width: root.borderWidth
     radius: 0
-    implicitWidth: contentRoot.childrenRect.width + (padding * 2)
+    implicitWidth: contentRoot.childrenRect.width + (padding * 2) + (extraSideMargin ? extraSideMarginSize : 0)
     implicitHeight: root.barHeight
 
     Item {
