@@ -8,7 +8,8 @@ PillWidget {
 
     property int batteryPercent: -1
     property string batteryState: "Unknown"
-
+    
+    visible: batteryState != "Unknown"
     readonly property string batteryIcon: {
         if (batteryPercent < 0)
             return "󰂃";
