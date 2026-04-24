@@ -6,14 +6,14 @@ import Quickshell.Wayland
 PillWidget {
     id: widget
 
+    visible: ToplevelManager.activeToplevel.activated
+
     Text {
         id: activeAppLabel
 
         anchors.centerIn: parent
         color: widget.accentColor
-        text: ToplevelManager.activeToplevel.activated
-            ? ToplevelManager.activeToplevel.appId
-            : "Desktop"
+        text: ToplevelManager.activeToplevel.appId
         font.family: root.fontFamily
         font.pixelSize: root.scaledFontSize
         font.bold: true

@@ -62,6 +62,10 @@ Scope {
                                 extraSideMargin: false
                             }
 
+                            ActiveAppWidget {
+                                pillIndex: 1
+                            }
+
                         }
 
                     }
@@ -131,4 +135,3 @@ Scope {
     }
 
 }
-
