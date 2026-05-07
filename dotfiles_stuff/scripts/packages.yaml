@@ -16,7 +16,7 @@ desktop:
   packages:
     - hyprland  # Wayland compositor
     - ly  # Login manager
-    - hyprlauncher  # Application launcher
+    - fuzzel  # Application launcher
     - mako  # Notification daemon
     - hyprlock  # Screen locker
     - hyprpaper  # Wallpaper daemon
