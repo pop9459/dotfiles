@@ -132,6 +132,10 @@ Scope {
                     panelWindow: root
                 }
 
+                BrightnessOsd {
+                    panelWindow: root
+                }
+
             }
 
         }

@@ -32,7 +32,7 @@ This directory contains the modular configuration files for Hyprland.
 
 ### Multimedia Keys
 - Volume up/down, mute (shows Quickshell OSD popup)
-- Brightness up/down
+- Brightness up/down (shows Quickshell OSD popup)
 - Media playback controls (requires playerctl)
 
 ## How to Edit
