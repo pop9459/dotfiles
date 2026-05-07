@@ -5,9 +5,13 @@ import Quickshell
 import Quickshell.Services.Pipewire
 
 Scope {
-    id: volumeOsd
+    id: root
 
     required property QtObject panelWindow
+    readonly property int borderWidth: panelWindow ? panelWindow.borderWidth : 2
+    readonly property int barHeight: panelWindow ? panelWindow.barHeight : 38
+    readonly property string fontFamily: panelWindow ? panelWindow.fontFamily : "JetBrainsMono Nerd Font Propo"
+    readonly property int scaledFontSize: panelWindow ? panelWindow.scaledFontSize : 18
 
     property bool popupVisible: false
     readonly property var sink: Pipewire.defaultAudioSink
@@ -37,14 +41,14 @@ Scope {
     }
 
     Connections {
-        target: volumeOsd.sink && volumeOsd.sink.audio ? volumeOsd.sink.audio : null
+        target: root.sink && root.sink.audio ? root.sink.audio : null
 
         function onVolumeChanged() {
-            volumeOsd.show();
+            root.show();
         }
 
         function onMutedChanged() {
-            volumeOsd.show();
+            root.show();
         }
     }
 
@@ -52,7 +56,7 @@ Scope {
         target: Pipewire
 
         function onDefaultAudioSinkChanged() {
-            volumeOsd.show();
+            root.show();
         }
     }
 
@@ -61,75 +65,96 @@ Scope {
 
         interval: 1400
         repeat: false
-        onTriggered: volumeOsd.popupVisible = false
+        onTriggered: root.popupVisible = false
     }
 
     PopupWindow {
         id: popup
 
-        anchor.window: volumeOsd.panelWindow
-        anchor.rect.x: Math.round((volumeOsd.panelWindow.width - implicitWidth) / 2)
+        anchor.window: root.panelWindow
+        anchor.rect.x: Math.round((root.panelWindow.width - implicitWidth) / 2)
         anchor.rect.y: Math.max(
             0,
-            (volumeOsd.panelWindow.screen ? volumeOsd.panelWindow.screen.height : volumeOsd.panelWindow.height) - implicitHeight - 96 
+            (root.panelWindow.screen ? root.panelWindow.screen.height : root.panelWindow.height) - implicitHeight - 94
         )
         color: "transparent"
-        visible: volumeOsd.popupVisible
-        implicitWidth: 260
-        implicitHeight: 72
+        visible: root.popupVisible
+        implicitWidth: 300
+        implicitHeight: root.barHeight
 
-        Rectangle {
+        PillWidget {
+            id: osdPill
             anchors.fill: parent
-            color: Colors.base
-            border.color: Colors.cycleColor(1)
-            border.width: 2
-            radius: 0
+            pillIndex: 1
+            extraSideMargin: true
 
-            ColumnLayout {
+            StackLayout {
                 anchors.fill: parent
-                anchors.margins: 10
-                spacing: 8
+                currentIndex: root.muted ? 1 : 0
 
-                RowLayout {
+                Item {
                     Layout.fillWidth: true
-                    spacing: 8
+                    Layout.fillHeight: true
 
-                    Text {
-                        Layout.alignment: Qt.AlignVCenter
-                        color: Colors.cycleColor(1)
-                        text: volumeOsd.volumeIcon
-                        font.family: volumeOsd.panelWindow.fontFamily
-                        font.pixelSize: volumeOsd.panelWindow.scaledFontSize
-                        font.bold: true
-                        verticalAlignment: Text.AlignVCenter
-                    }
+                    RowLayout {
+                        anchors.fill: parent
 
-                    Text {
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignVCenter
-                        color: Colors.text
-                        text: volumeOsd.muted ? "Muted" : "Volume " + volumeOsd.volumePercent + "%"
-                        font.family: volumeOsd.panelWindow.fontFamily
-                        font.pixelSize: volumeOsd.panelWindow.scaledFontSize - 2
-                        font.bold: true
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
+                        Text {
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: root.scaledFontSize * 2.5
+                            color: osdPill.accentColor
+                            text: root.volumeIcon
+                            font.family: root.fontFamily
+                            font.pixelSize: root.scaledFontSize 
+                            font.bold: true
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        Rectangle {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: root.scaledFontSize
+                            Layout.alignment: Qt.AlignVCenter
+                            color: Colors.surface1
+                            radius: 0
+
+                            Rectangle {
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                width: Math.round(parent.width * root.volume)
+                                color: osdPill.accentColor
+                                radius: 0
+                            }
+                        }
+
+                        Text {
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredWidth: root.scaledFontSize * 2.5
+                            color: osdPill.accentColor
+                            text: root.volumePercent 
+                            font.family: root.fontFamily
+                            font.pixelSize: root.scaledFontSize 
+                            font.bold: true
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
                     }
                 }
 
-                Rectangle {
+                Item {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 10
-                    color: Colors.surface1
-                    radius: 0
+                    Layout.fillHeight: true
 
-                    Rectangle {
-                        anchors.left: parent.left
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        width: Math.round(parent.width * (volumeOsd.muted ? 0 : volumeOsd.volume))
-                        color: Colors.cycleColor(1)
-                        radius: 0
+                    Text {
+                        anchors.centerIn: parent
+                        color: osdPill.accentColor
+                        text: "Muted"
+                        font.family: root.fontFamily
+                        font.pixelSize: root.scaledFontSize 
+                        font.bold: true
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                     }
                 }
             }
