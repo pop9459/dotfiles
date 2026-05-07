@@ -128,6 +128,10 @@ Scope {
 
                 }
 
+                VolumeOsd {
+                    panelWindow: root
+                }
+
             }
 
         }

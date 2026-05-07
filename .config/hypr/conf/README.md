@@ -31,7 +31,7 @@ This directory contains the modular configuration files for Hyprland.
 - SHIFT + Numbers with SUPER - Move window to workspace
 
 ### Multimedia Keys
-- Volume up/down, mute
+- Volume up/down, mute (shows Quickshell OSD popup)
 - Brightness up/down
 - Media playback controls (requires playerctl)
 
