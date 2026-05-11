@@ -1,3 +1,4 @@
+//@ pragma UseQApplication
 import "../theme"
 import "./components"
 import QtQuick
@@ -113,8 +114,13 @@ Scope {
                             anchors.verticalCenter: parent.verticalCenter
                             spacing: root.scaledSpacing
 
-                            BatteryWidget {
+                            SystemTrayWidget {
                                 pillIndex: 1
+                                extraSideMargin: false
+                            }
+
+                            BatteryWidget {
+                                pillIndex: 2
                             }
 
                             SessionControllsWidget {

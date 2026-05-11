@@ -27,12 +27,22 @@ PillWidget {
                 color: trayMouseArea.containsMouse ? Colors.surface1 : Colors.base
                 radius: 0
 
-                function showMenu(x, y) {
-                    if (!modelData.hasMenu)
+                function showMenu() {
+                    if (modelData.menu) {
+                        trayMenuAnchor.open();
                         return;
+                    }
 
-                    const clickPos = trayItem.mapToItem(root, x, y);
-                    modelData.display(root, Math.round(clickPos.x), Math.round(clickPos.y));
+                    if (typeof modelData.secondaryActivate === "function")
+                        modelData.secondaryActivate();
+                }
+
+                QsMenuAnchor {
+                    id: trayMenuAnchor
+
+                    anchor.window: root
+                    anchor.item: trayItem
+                    menu: modelData.menu
                 }
 
                 IconImage {
@@ -60,11 +70,11 @@ PillWidget {
                     onClicked: mouse => {
                         if (mouse.button === Qt.LeftButton) {
                             if (modelData.onlyMenu)
-                                trayItem.showMenu(mouse.x, mouse.y);
+                                trayItem.showMenu();
                             else
                                 modelData.activate();
                         } else if (mouse.button === Qt.RightButton) {
-                            trayItem.showMenu(mouse.x, mouse.y);
+                            trayItem.showMenu();
                         }
                     }
                 }
