@@ -8,13 +8,15 @@ system:
     - cachy-update  # CachyOS system updater
     - bpftune-git  # BPF-based auto-tuning for system performance
     - profile-sync-daemon  # Sync browser profiles to RAM for speed
+    - playerctl # To controll media playback
+    - brightnessctl # To controll display brightness
 
 desktop:
   description: "Desktop Environment - Hyprland and essential GUI tools"
   packages:
     - hyprland  # Wayland compositor
     - ly  # Login manager
-    - hyprlauncher  # Application launcher
+    - fuzzel  # Application launcher
     - mako  # Notification daemon
     - hyprlock  # Screen locker
     - hyprpaper  # Wallpaper daemon
@@ -31,6 +33,7 @@ desktop:
     - eww  # Status bar widget system
     - uwsm  # Universal Wayland session manager
     - socat # For workspaces widget
+    - nextcloud-desktop # Files backup
   
 wayland:
   description: "Wayland Essentials - Clipboard, portals, and utilities"
@@ -38,8 +41,7 @@ wayland:
     - wl-clipboard  # Wayland clipboard utilities
     - xdg-desktop-portal-hyprland  # Desktop portal for Hyprland
     - kanshi  # Multi-monitor management
-    - grim  # Screenshot tool
-    - slurp  # Region selector for screenshots
+    - hyprshot  # Hyprland-native screenshot utility
     - hyprpolkitagent  # Polkit authentication agent
 
 dev-tools:

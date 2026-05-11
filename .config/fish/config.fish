@@ -2,7 +2,7 @@
 set -g fish_greeting # Add custom text here if wanted
 
 # Dotfiles management alias
-alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+alias dots='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 
 # Configure fzf.fish keybindings - use Alt+C for directory navigation
 # fzf_configure_bindings --directory=\ec

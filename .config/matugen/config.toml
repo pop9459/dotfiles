@@ -29,3 +29,7 @@ output_path = "~/.config/gtk-3.0/colors.css"
 [templates.gtk-4]
 input_path = "~/.config/matugen/templates/gtk.css"
 output_path = "~/.config/gtk-4.0/colors.css"
+
+[templates.quickshell]
+input_path = "~/.config/matugen/templates/quickshell.qml"
+output_path = "~/.config/quickshell/bar/theme/Colors.qml"
