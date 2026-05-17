@@ -49,7 +49,7 @@ PillWidget {
     }
 
     Timer {
-        interval: 30000
+        interval: 1000
         running: true
         repeat: true
         onTriggered: widget.refreshBattery()
