@@ -32,6 +32,7 @@ function yz
     rm -f -- "$tmp"
 end
 
+
 function fish_prompt
     set -l host (prompt_hostname)
     set -l cwd (pwd)
@@ -59,7 +60,7 @@ function fish_prompt
 
     set_color $c_overlay
     echo -n "┌["
-    
+
     set_color $c_blue
     echo -n $USER"@"$host
 
@@ -88,3 +89,4 @@ function fish_prompt
 
     set_color normal
 end
+
