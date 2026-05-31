@@ -11,6 +11,7 @@ local servers = {
     "bashls",
     "clangd",
     "jdtls",
+    "intelephense",
 }
 vim.lsp.enable(servers)
 
