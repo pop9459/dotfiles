@@ -15,4 +15,16 @@ local servers = {
 }
 vim.lsp.enable(servers)
 
+-- Configure intelephense with 4-space indentation
+vim.lsp.config("intelephense", {
+    settings = {
+        intelephense = {
+            format = {
+                enable = true,
+                indentSize = 4,
+            },
+        },
+    },
+})
+
 -- read :h vim.lsp.config for changing options of lsp servers
