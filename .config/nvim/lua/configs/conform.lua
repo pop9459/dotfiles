@@ -15,7 +15,6 @@ local options = {
         c = { "clang-format" },
         cpp = { "clang-format" },
         java = { "google-java-format" },
-        php = { "pint" },
     },
 
     format_on_save = {
