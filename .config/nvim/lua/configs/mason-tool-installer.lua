@@ -1,0 +1,21 @@
+return {
+    ensure_installed = {
+        "lua-language-server",
+        "pyright",
+        "typescript-language-server",
+        "html-lsp",
+        "css-lsp",
+        "json-lsp",
+        "bash-language-server",
+        "clangd",
+        "jdtls",
+        "marksman",
+        "intelephense",
+        "stylua",
+        "black",
+        "prettier",
+        "shfmt",
+        "clang-format",
+        "google-java-format",
+    },
+}

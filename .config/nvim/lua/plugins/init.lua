@@ -5,7 +5,6 @@ return {
         opts = require "configs.conform",
     },
 
-    -- These are some examples, uncomment them if you want to see them work!
     {
         "neovim/nvim-lspconfig",
         config = function()
@@ -13,17 +12,32 @@ return {
         end,
     },
 
-    -- test new blink
-    -- { import = "nvchad.blink.lazyspec" },
+    {
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
+        event = "VeryLazy",
+        opts = require "configs.mason-tool-installer",
+        dependencies = { "williamboman/mason.nvim" },
+    },
 
-    -- {
-    -- 	"nvim-treesitter/nvim-treesitter",
-    -- 	opts = {
-    -- 		ensure_installed = {
-    -- 			"vim", "lua", "vimdoc",
-    --      "html", "css"
-    -- 		},
-    -- 	},
+    {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        event = "BufReadPre",
+        config = function()
+            require("ts_context_commentstring").setup {
+                enable_autocmd = false,
+            }
+        end,
+    },
+
+    {
+        "numToStr/Comment.nvim",
+        opts = function()
+            return {
+                pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+            }
+        end,
+    },
+
     {
         "github/copilot.vim",
         lazy = false,
@@ -31,5 +45,5 @@ return {
             vim.g.copilot_no_tab_map = true
             vim.g.copilot_assume_mapped = true
         end,
-    }, -- },
+    },
 }
