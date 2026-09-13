@@ -46,4 +46,12 @@ return {
             vim.g.copilot_assume_mapped = true
         end,
     },
+
+    {
+        "nvim-tree/nvim-tree.lua",
+        opts = function(_, opts)
+            opts.filters = opts.filters or {}
+            opts.filters.git_ignored = false
+        end,
+    },
 }
