@@ -2,3 +2,5 @@
 
 # Dotfiles management alias
 alias dots="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+
+. "$HOME/.local/share/../bin/env"
