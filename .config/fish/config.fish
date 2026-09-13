@@ -93,3 +93,6 @@ end
 
 # Created by `pipx` on 2026-05-28 08:40:48
 set PATH $PATH /home/pop/.local/bin
+
+# opencode
+fish_add_path /home/pop/.opencode/bin
