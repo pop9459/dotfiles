@@ -8,7 +8,7 @@ PillWidget {
 
     // See WifiWidget.qml for why width is set explicitly here instead of
     // relying on PillWidget's own (circular, animation-hostile) implicitWidth.
-    width: bluetoothIconLabel.implicitWidth
+    width: bluetoothIconLabel.width
         + (showLabel ? (6 + Math.min(bluetoothLabelText.implicitWidth, 160)) : 0)
         + (padding * 2) + (extraSideMargin ? extraSideMarginSize : 0)
 
@@ -99,6 +99,8 @@ PillWidget {
 
             color: widget.accentColor
             text: widget.bluetoothIcon
+            width: height
+            horizontalAlignment: Text.AlignHCenter
 
             font {
                 family: root.fontFamily

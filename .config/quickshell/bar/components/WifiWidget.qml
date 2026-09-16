@@ -13,7 +13,7 @@ PillWidget {
     // Qt's binding-loop breaker. Set width explicitly here instead, computed
     // from the labels' own implicitWidth (leaf values, non-circular), so it
     // can be animated safely without touching PillWidget.qml.
-    width: wifiIconLabel.implicitWidth
+    width: wifiIconLabel.width
         + (showLabel ? (6 + Math.min(wifiLabelText.implicitWidth, 160)) : 0)
         + (padding * 2) + (extraSideMargin ? extraSideMarginSize : 0)
 
@@ -124,6 +124,8 @@ PillWidget {
 
             color: widget.accentColor
             text: widget.wifiIcon
+            width: height
+            horizontalAlignment: Text.AlignHCenter
 
             font {
                 family: root.fontFamily
