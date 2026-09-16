@@ -6,6 +6,21 @@ import Quickshell.Io
 PillWidget {
     id: widget
 
+    // PillWidget's own implicitWidth is derived from contentRoot.childrenRect,
+    // which is circular (content is centered within contentRoot, whose size
+    // derives from that same content) - harmless for static content, but an
+    // animated width feeding through that chain gets silently suppressed by
+    // Qt's binding-loop breaker. Set width explicitly here instead, computed
+    // from the labels' own implicitWidth (leaf values, non-circular), so it
+    // can be animated safely without touching PillWidget.qml.
+    width: wifiIconLabel.implicitWidth
+        + (showLabel ? (6 + Math.min(wifiLabelText.implicitWidth, 160)) : 0)
+        + (padding * 2) + (extraSideMargin ? extraSideMarginSize : 0)
+
+    Behavior on width {
+        NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+    }
+
     property bool connected: false
     property string ssid: ""
     property int signalStrength: -1
@@ -100,6 +115,10 @@ PillWidget {
         anchors.centerIn: parent
         spacing: widget.showLabel ? 6 : 0
 
+        Behavior on spacing {
+            NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+        }
+
         Text {
             id: wifiIconLabel
 
@@ -119,6 +138,10 @@ PillWidget {
             clip: true
             height: wifiIconLabel.height
             width: widget.showLabel ? Math.min(wifiLabelText.implicitWidth, 160) : 0
+
+            Behavior on width {
+                NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+            }
 
             Text {
                 id: wifiLabelText
