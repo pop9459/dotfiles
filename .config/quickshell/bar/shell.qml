@@ -87,16 +87,24 @@ Scope {
                             anchors.centerIn: parent
                             spacing: root.scaledSpacing
 
+                            BluetoothWidget {
+                                pillIndex: 1
+                            }
+
                             DateWidget {
                                 id: dateWidget
 
-                                pillIndex: 1
+                                pillIndex: 2
                             }
 
                             ClockWidget {
                                 id: clockWidget
 
-                                pillIndex: 2
+                                pillIndex: 3
+                            }
+
+                            WifiWidget {
+                                pillIndex: 4
                             }
 
                         }
@@ -118,25 +126,17 @@ Scope {
                             anchors.verticalCenter: parent.verticalCenter
                             spacing: root.scaledSpacing
 
-                            WifiWidget {
-                                pillIndex: 3
-                            }
-
-                            BluetoothWidget {
-                                pillIndex: 4
-                            }
-
                             SystemTrayWidget {
-                                pillIndex: 5
+                                pillIndex: 1
                                 extraSideMargin: false
                             }
 
                             BatteryWidget {
-                                pillIndex: 6
+                                pillIndex: 2
                             }
 
                             SessionControllsWidget {
-                                pillIndex: 7
+                                pillIndex: 3
                                 extraSideMargin: false
                             }
 
