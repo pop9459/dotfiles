@@ -10,9 +10,9 @@ PillWidget {
     property int ramPercent: -1
 
     // Gap between an icon and its own percentage.
-    property int iconTextSpacing: 2
+    property int iconTextSpacing: 4
     // Gap between the CPU block and the RAM block.
-    property int blockSpacing: 8
+    property int blockSpacing: 10
 
     function refreshResources() {
         resourceProcess.running = false;
