@@ -94,21 +94,6 @@ PillWidget {
             NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
         }
 
-        Text {
-            id: bluetoothIconLabel
-
-            color: widget.accentColor
-            text: widget.bluetoothIcon
-            width: height
-            horizontalAlignment: Text.AlignHCenter
-
-            font {
-                family: root.fontFamily
-                pixelSize: root.scaledFontSize
-                bold: true
-            }
-        }
-
         Item {
             id: bluetoothLabelClip
 
@@ -123,16 +108,32 @@ PillWidget {
             Text {
                 id: bluetoothLabelText
 
+                anchors.right: parent.right
                 color: widget.accentColor
                 text: widget.connectedName
-                elide: Text.ElideRight
-                width: 160
+                elide: Text.ElideLeft
+                width: Math.min(implicitWidth, 160)
 
                 font {
                     family: root.fontFamily
                     pixelSize: root.scaledFontSize
                     bold: true
                 }
+            }
+        }
+
+        Text {
+            id: bluetoothIconLabel
+
+            color: widget.accentColor
+            text: widget.bluetoothIcon
+            width: height
+            horizontalAlignment: Text.AlignHCenter
+
+            font {
+                family: root.fontFamily
+                pixelSize: root.scaledFontSize
+                bold: true
             }
         }
     }
