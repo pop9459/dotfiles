@@ -9,6 +9,7 @@ PillWidget {
     property bool connected: false
     property string ssid: ""
     property int signalStrength: -1
+    property bool showLabel: false
 
     readonly property string wifiIcon: {
         if (!widget.connected)
@@ -27,6 +28,30 @@ PillWidget {
     function refreshWifi() {
         wifiProcess.running = false;
         wifiProcess.running = true;
+    }
+
+    function revealLabel() {
+        widget.showLabel = true;
+        revealTimer.restart();
+    }
+
+    onConnectedChanged: {
+        if (widget.connected)
+            widget.revealLabel();
+    }
+
+    onSsidChanged: {
+        if (widget.connected)
+            widget.revealLabel();
+    }
+
+    Timer {
+        id: revealTimer
+
+        interval: 4000
+        running: false
+        repeat: false
+        onTriggered: widget.showLabel = false
     }
 
     Process {
@@ -69,25 +94,52 @@ PillWidget {
         running: false
     }
 
-    Text {
-        id: wifiLabel
+    Row {
+        id: wifiRow
 
         anchors.centerIn: parent
-        color: widget.accentColor
-        text: widget.connected ? `${widget.wifiIcon} ${widget.ssid}` : widget.wifiIcon
-        elide: Text.ElideRight
-        width: Math.min(implicitWidth, 160)
+        spacing: widget.showLabel ? 6 : 0
 
-        font {
-            family: root.fontFamily
-            pixelSize: root.scaledFontSize
-            bold: true
+        Text {
+            id: wifiIconLabel
+
+            color: widget.accentColor
+            text: widget.wifiIcon
+
+            font {
+                family: root.fontFamily
+                pixelSize: root.scaledFontSize
+                bold: true
+            }
         }
 
-        MouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            onClicked: nmtuiProcess.running = true
+        Item {
+            id: wifiLabelClip
+
+            clip: true
+            height: wifiIconLabel.height
+            width: widget.showLabel ? Math.min(wifiLabelText.implicitWidth, 160) : 0
+
+            Text {
+                id: wifiLabelText
+
+                color: widget.accentColor
+                text: widget.ssid
+                elide: Text.ElideRight
+                width: 160
+
+                font {
+                    family: root.fontFamily
+                    pixelSize: root.scaledFontSize
+                    bold: true
+                }
+            }
         }
+    }
+
+    MouseArea {
+        anchors.fill: wifiRow
+        cursorShape: Qt.PointingHandCursor
+        onClicked: nmtuiProcess.running = true
     }
 }
