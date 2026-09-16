@@ -122,17 +122,21 @@ Scope {
                                 pillIndex: 1
                             }
 
-                            SystemTrayWidget {
+                            BluetoothWidget {
                                 pillIndex: 2
+                            }
+
+                            SystemTrayWidget {
+                                pillIndex: 3
                                 extraSideMargin: false
                             }
 
                             BatteryWidget {
-                                pillIndex: 3
+                                pillIndex: 4
                             }
 
                             SessionControllsWidget {
-                                pillIndex: 4
+                                pillIndex: 5
                                 extraSideMargin: false
                             }
 
