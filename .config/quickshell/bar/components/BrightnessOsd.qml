@@ -2,6 +2,7 @@ import "../theme"
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Wayland
 import Quickshell.Io
 
 Scope {
@@ -68,23 +69,34 @@ Scope {
         onTriggered: root.popupVisible = false
     }
 
-    PopupWindow {
+    PanelWindow {
         id: popup
 
-        anchor.window: root.panelWindow
-        anchor.rect.x: Math.round((root.panelWindow.width - implicitWidth) / 2)
-        anchor.rect.y: Math.max(
-            0,
-            (root.panelWindow.screen ? root.panelWindow.screen.height : root.panelWindow.height) - implicitHeight - 94
-        )
+        screen: root.panelWindow ? root.panelWindow.screen : null
         color: "transparent"
         visible: root.popupVisible
-        implicitWidth: 300
+        focusable: false
         implicitHeight: root.barHeight
+
+        anchors {
+            bottom: true
+            left: true
+            right: true
+        }
+        margins.bottom: 94
+
+        WlrLayershell.layer: WlrLayer.Overlay
+        exclusionMode: ExclusionMode.Ignore
+
+        mask: Region {
+            item: osdPill
+        }
 
         PillWidget {
             id: osdPill
-            anchors.fill: parent
+            anchors.centerIn: parent
+            width: 300
+            height: root.barHeight
             pillIndex: 2
             extraSideMargin: true
 
