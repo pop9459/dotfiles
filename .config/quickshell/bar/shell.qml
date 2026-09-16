@@ -136,7 +136,7 @@ Scope {
                             }
 
                             SessionControllsWidget {
-                                pillIndex: 5
+                                pillIndex: 7
                                 extraSideMargin: false
                             }
 
