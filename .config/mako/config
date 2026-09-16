@@ -13,13 +13,13 @@ progress-color=over #89b4faFF
 width=260
 padding=8,12
 margin=8
-outer-margin=54,10,10,10
+outer-margin=10,10,10,10
 
 icon-location=left
 max-icon-size=36
 
 anchor=top-right
-default-timeout=5000
+default-timeout=4000
 
 [urgency=critical]
 border-color=#f38ba8FF
