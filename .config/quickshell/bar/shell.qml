@@ -119,20 +119,20 @@ Scope {
                             spacing: root.scaledSpacing
 
                             WifiWidget {
-                                pillIndex: 1
+                                pillIndex: 3
                             }
 
                             BluetoothWidget {
-                                pillIndex: 2
+                                pillIndex: 4
                             }
 
                             SystemTrayWidget {
-                                pillIndex: 3
+                                pillIndex: 5
                                 extraSideMargin: false
                             }
 
                             BatteryWidget {
-                                pillIndex: 4
+                                pillIndex: 6
                             }
 
                             SessionControllsWidget {
