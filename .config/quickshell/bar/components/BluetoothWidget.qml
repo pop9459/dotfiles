@@ -6,8 +6,19 @@ import Quickshell.Io
 PillWidget {
     id: widget
 
+    // See WifiWidget.qml for why width is set explicitly here instead of
+    // relying on PillWidget's own (circular, animation-hostile) implicitWidth.
+    width: bluetoothIconLabel.implicitWidth
+        + (showLabel ? (6 + Math.min(bluetoothLabelText.implicitWidth, 160)) : 0)
+        + (padding * 2) + (extraSideMargin ? extraSideMarginSize : 0)
+
+    Behavior on width {
+        NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+    }
+
     property bool powered: false
     property string connectedName: ""
+    property bool showLabel: false
 
     readonly property string bluetoothIcon: {
         if (!widget.powered)
@@ -20,6 +31,25 @@ PillWidget {
     function refreshBluetooth() {
         bluetoothProcess.running = false;
         bluetoothProcess.running = true;
+    }
+
+    function revealLabel() {
+        widget.showLabel = true;
+        revealTimer.restart();
+    }
+
+    onConnectedNameChanged: {
+        if (widget.connectedName.length > 0)
+            widget.revealLabel();
+    }
+
+    Timer {
+        id: revealTimer
+
+        interval: 4000
+        running: false
+        repeat: false
+        onTriggered: widget.showLabel = false
     }
 
     Process {
@@ -54,25 +84,60 @@ PillWidget {
         running: false
     }
 
-    Text {
-        id: bluetoothLabel
+    Row {
+        id: bluetoothRow
 
         anchors.centerIn: parent
-        color: widget.accentColor
-        text: widget.connectedName.length > 0 ? `${widget.bluetoothIcon} ${widget.connectedName}` : widget.bluetoothIcon
-        elide: Text.ElideRight
-        width: Math.min(implicitWidth, 160)
+        spacing: widget.showLabel ? 6 : 0
 
-        font {
-            family: root.fontFamily
-            pixelSize: root.scaledFontSize
-            bold: true
+        Behavior on spacing {
+            NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
         }
 
-        MouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            onClicked: bluetuiProcess.running = true
+        Text {
+            id: bluetoothIconLabel
+
+            color: widget.accentColor
+            text: widget.bluetoothIcon
+
+            font {
+                family: root.fontFamily
+                pixelSize: root.scaledFontSize
+                bold: true
+            }
         }
+
+        Item {
+            id: bluetoothLabelClip
+
+            clip: true
+            height: bluetoothIconLabel.height
+            width: widget.showLabel ? Math.min(bluetoothLabelText.implicitWidth, 160) : 0
+
+            Behavior on width {
+                NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+            }
+
+            Text {
+                id: bluetoothLabelText
+
+                color: widget.accentColor
+                text: widget.connectedName
+                elide: Text.ElideRight
+                width: 160
+
+                font {
+                    family: root.fontFamily
+                    pixelSize: root.scaledFontSize
+                    bold: true
+                }
+            }
+        }
+    }
+
+    MouseArea {
+        anchors.fill: bluetoothRow
+        cursorShape: Qt.PointingHandCursor
+        onClicked: bluetuiProcess.running = true
     }
 }
