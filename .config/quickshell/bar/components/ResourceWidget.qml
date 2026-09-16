@@ -42,7 +42,7 @@ PillWidget {
     Text {
         anchors.centerIn: parent
         color: widget.accentColor
-        text: `󰘚 ${widget.cpuPercent >= 0 ? widget.cpuPercent : "--"}% 󰍛 ${widget.ramPercent >= 0 ? widget.ramPercent : "--"}%`
+        text: ` ${widget.cpuPercent >= 0 ? widget.cpuPercent : "--"}%  ${widget.ramPercent >= 0 ? widget.ramPercent : "--"}%`
 
         font {
             family: root.fontFamily
