@@ -9,6 +9,11 @@ PillWidget {
     property int cpuPercent: -1
     property int ramPercent: -1
 
+    // Gap between an icon and its own percentage.
+    property int iconTextSpacing: 2
+    // Gap between the CPU block and the RAM block.
+    property int blockSpacing: 8
+
     function refreshResources() {
         resourceProcess.running = false;
         resourceProcess.running = true;
@@ -39,15 +44,40 @@ PillWidget {
 
     Component.onCompleted: widget.refreshResources()
 
-    Text {
+    Row {
         anchors.centerIn: parent
-        color: widget.accentColor
-        text: ` ${widget.cpuPercent >= 0 ? widget.cpuPercent : "--"}%  ${widget.ramPercent >= 0 ? widget.ramPercent : "--"}%`
+        spacing: widget.blockSpacing
 
-        font {
-            family: root.fontFamily
-            pixelSize: root.scaledFontSize
-            bold: true
+        Row {
+            spacing: widget.iconTextSpacing
+
+            Text {
+                color: widget.accentColor
+                text: ""
+                font { family: root.fontFamily; pixelSize: root.scaledFontSize; bold: true }
+            }
+
+            Text {
+                color: widget.accentColor
+                text: `${widget.cpuPercent >= 0 ? widget.cpuPercent : "--"}%`
+                font { family: root.fontFamily; pixelSize: root.scaledFontSize; bold: true }
+            }
+        }
+
+        Row {
+            spacing: widget.iconTextSpacing
+
+            Text {
+                color: widget.accentColor
+                text: ""
+                font { family: root.fontFamily; pixelSize: root.scaledFontSize; bold: true }
+            }
+
+            Text {
+                color: widget.accentColor
+                text: `${widget.ramPercent >= 0 ? widget.ramPercent : "--"}%`
+                font { family: root.fontFamily; pixelSize: root.scaledFontSize; bold: true }
+            }
         }
     }
 }
