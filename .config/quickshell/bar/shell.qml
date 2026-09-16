@@ -67,6 +67,10 @@ Scope {
                                 pillIndex: 1
                             }
 
+                            ResourceWidget {
+                                pillIndex: 2
+                            }
+
                         }
 
                     }
