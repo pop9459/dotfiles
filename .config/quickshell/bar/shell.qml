@@ -79,34 +79,45 @@ Scope {
                     Item {
                         Layout.fillWidth: true
                         Layout.preferredWidth: 1
-                        implicitHeight: centerRow.implicitHeight
+                        implicitHeight: clockRow.implicitHeight
 
+                        // Date/clock are kept in their own row, centered independently
+                        // of Bluetooth/Wifi, so those two expanding/collapsing (their
+                        // SSID/device-name reveal) never nudges the clock off-center.
                         RowLayout {
-                            id: centerRow
+                            id: clockRow
 
                             anchors.centerIn: parent
                             spacing: root.scaledSpacing
 
-                            BluetoothWidget {
-                                pillIndex: 1
-                            }
-
                             DateWidget {
                                 id: dateWidget
 
-                                pillIndex: 2
+                                pillIndex: 1
                             }
 
                             ClockWidget {
                                 id: clockWidget
 
-                                pillIndex: 3
+                                pillIndex: 2
                             }
 
-                            WifiWidget {
-                                pillIndex: 4
-                            }
+                        }
 
+                        BluetoothWidget {
+                            pillIndex: 0
+
+                            anchors.right: clockRow.left
+                            anchors.rightMargin: root.scaledSpacing
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        WifiWidget {
+                            pillIndex: 3
+
+                            anchors.left: clockRow.right
+                            anchors.leftMargin: root.scaledSpacing
+                            anchors.verticalCenter: parent.verticalCenter
                         }
 
                     }
