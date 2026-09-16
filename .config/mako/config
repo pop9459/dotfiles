@@ -1,7 +1,7 @@
 # Catppuccin Mocha, matching the quickshell bar theme
 # (~/.config/quickshell/bar/theme/Colors.qml, PillWidget.qml)
 
-font=JetBrainsMono Nerd Font Propo 11
+font=JetBrainsMono Nerd Font Propo 10
 
 background-color=#1e1e2eFF
 text-color=#cdd6f4FF
@@ -10,13 +10,13 @@ border-size=2
 border-radius=0
 progress-color=over #89b4faFF
 
-width=320
-padding=10,15
-margin=10
-outer-margin=50,10,10,10
+width=260
+padding=8,12
+margin=8
+outer-margin=54,10,10,10
 
 icon-location=left
-max-icon-size=48
+max-icon-size=36
 
 anchor=top-right
 default-timeout=5000
