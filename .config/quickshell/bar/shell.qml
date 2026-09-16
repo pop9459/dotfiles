@@ -114,17 +114,21 @@ Scope {
                             anchors.verticalCenter: parent.verticalCenter
                             spacing: root.scaledSpacing
 
-                            SystemTrayWidget {
+                            WifiWidget {
                                 pillIndex: 1
+                            }
+
+                            SystemTrayWidget {
+                                pillIndex: 2
                                 extraSideMargin: false
                             }
 
                             BatteryWidget {
-                                pillIndex: 2
+                                pillIndex: 3
                             }
 
                             SessionControllsWidget {
-                                pillIndex: 3
+                                pillIndex: 4
                                 extraSideMargin: false
                             }
 
