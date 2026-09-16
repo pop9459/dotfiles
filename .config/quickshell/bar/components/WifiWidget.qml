@@ -62,7 +62,16 @@ PillWidget {
 
     Component.onCompleted: widget.refreshWifi()
 
+    Process {
+        id: nmtuiProcess
+
+        command: ["kitty", "nmtui"]
+        running: false
+    }
+
     Text {
+        id: wifiLabel
+
         anchors.centerIn: parent
         color: widget.accentColor
         text: widget.connected ? `${widget.wifiIcon} ${widget.ssid}` : widget.wifiIcon
@@ -73,6 +82,12 @@ PillWidget {
             family: root.fontFamily
             pixelSize: root.scaledFontSize
             bold: true
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: nmtuiProcess.running = true
         }
     }
 }
