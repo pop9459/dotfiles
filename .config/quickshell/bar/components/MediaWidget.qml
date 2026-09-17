@@ -1,5 +1,6 @@
 import "../theme"
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Mpris
@@ -10,25 +11,23 @@ PillWidget {
     // Gap between each block in the content row (art, spectrum, title).
     property int contentSpacing: 6
 
-    // Same trick as WifiWidget.qml: PillWidget's own implicitWidth is derived
-    // from contentRoot.childrenRect, which is circular under an animated
-    // width. Compute width explicitly from leaf implicitWidths instead.
+    // widget lives inside a RowLayout (leftRow in shell.qml), which manages
+    // its children's actual "width" imperatively - binding "width" directly
+    // fights that and can get silently clobbered whenever the layout
+    // repolishes (e.g. a sibling's implicitWidth changes), leaving this
+    // pill stuck open even with no active player. Drive Layout.preferredWidth
+    // instead, which RowLayout is designed to read.
     // Row always reserves contentSpacing between every pair of its three
     // children (even when titleClip is collapsed to width 0), so both gaps
     // must be counted here to match what Row actually renders.
-    width: widget.hasPlayer
+    Layout.preferredWidth: widget.hasPlayer
         ? (artArea.width + widget.contentSpacing + spectrumRow.width
             + widget.contentSpacing + titleClip.width
             + (padding * 2) + (extraSideMargin ? extraSideMarginSize : 0))
         : 0
 
-    Behavior on width {
+    Behavior on Layout.preferredWidth {
         NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
-    }
-
-    opacity: widget.isPlaying ? 1.0 : 0.6
-    Behavior on opacity {
-        NumberAnimation { duration: 200 }
     }
 
     property var playerList: Mpris.players.values
@@ -43,11 +42,14 @@ PillWidget {
 
     property var barLevels: Array(16).fill(0)
 
+    // Only an actually-playing player counts as "having a source" - a
+    // paused/stopped player should make the widget disappear entirely
+    // rather than fall back to showing it dimmed.
     function pickActivePlayer() {
         for (const p of widget.playerList)
             if (p.isPlaying)
                 return p;
-        return widget.playerList.length > 0 ? widget.playerList[0] : null;
+        return null;
     }
 
     function refreshActivePlayer() {
