@@ -7,12 +7,18 @@ import Quickshell.Services.Mpris
 PillWidget {
     id: widget
 
+    // Gap between each block in the content row (art, spectrum, title).
+    property int contentSpacing: 6
+
     // Same trick as WifiWidget.qml: PillWidget's own implicitWidth is derived
     // from contentRoot.childrenRect, which is circular under an animated
     // width. Compute width explicitly from leaf implicitWidths instead.
+    // Row always reserves contentSpacing between every pair of its three
+    // children (even when titleClip is collapsed to width 0), so both gaps
+    // must be counted here to match what Row actually renders.
     width: widget.hasPlayer
-        ? (artArea.width + spectrumRow.width + spectrumRow.spacing
-            + (widget.hasTrackInfo ? (6 + titleClip.width) : 0)
+        ? (artArea.width + widget.contentSpacing + spectrumRow.width
+            + widget.contentSpacing + titleClip.width
             + (padding * 2) + (extraSideMargin ? extraSideMarginSize : 0))
         : 0
 
@@ -81,13 +87,14 @@ PillWidget {
 
     Row {
         anchors.centerIn: parent
-        spacing: 6
+        height: root.barHeight - padding * 2
+        spacing: widget.contentSpacing
 
         Item {
             id: artArea
 
             width: height
-            height: root.barHeight - padding * 2
+            height: parent.height
 
             Image {
                 id: albumArt
@@ -117,7 +124,7 @@ PillWidget {
             id: spectrumRow
 
             spacing: 2
-            height: root.barHeight - padding * 2
+            height: parent.height
             anchors.verticalCenter: parent.verticalCenter
 
             Repeater {
@@ -142,6 +149,7 @@ PillWidget {
             clip: true
             height: titleLabel.height
             width: widget.hasTrackInfo ? Math.min(titleLabel.implicitWidth, 180) : 0
+            anchors.verticalCenter: parent.verticalCenter
 
             Behavior on width {
                 NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
