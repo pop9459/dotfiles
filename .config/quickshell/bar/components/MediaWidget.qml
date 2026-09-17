@@ -96,8 +96,9 @@ PillWidget {
         Item {
             id: artArea
 
-            width: root.scaledFontSize
-            height: root.scaledFontSize
+            // Same size as the workspace squares in WorkspaceWidget.qml.
+            width: widget.contentItem.height
+            height: widget.contentItem.height
             anchors.verticalCenter: parent.verticalCenter
             clip: true
 
