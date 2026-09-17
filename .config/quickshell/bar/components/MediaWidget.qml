@@ -27,7 +27,30 @@ PillWidget {
         : 0
 
     Behavior on Layout.preferredWidth {
-        NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+        NumberAnimation {
+            id: widthAnim
+
+            duration: 220
+            easing.type: Easing.OutCubic
+            // contentRoot (from PillWidget) doesn't clip its children, so
+            // showing the content Row while the pill is still growing lets
+            // it render at full size past the pill's current (smaller)
+            // border - only reveal it once the pill has fully opened.
+            onRunningChanged: {
+                if (!running && widget.hasPlayer)
+                    widget.contentVisible = true;
+            }
+        }
+    }
+
+    // Hides immediately when the source disappears (no animation needed
+    // there since the content shouldn't be visible at all once gone), but
+    // only becomes true once the opening width animation above finishes.
+    property bool contentVisible: false
+
+    onHasPlayerChanged: {
+        if (!widget.hasPlayer)
+            widget.contentVisible = false;
     }
 
     property var playerList: Mpris.players.values
@@ -96,10 +119,10 @@ PillWidget {
         spacing: widget.contentSpacing
         // contentRoot (this Row's parent, from PillWidget) doesn't clip its
         // children, and this Row sizes itself intrinsically rather than
-        // shrinking with the pill's animated Layout.preferredWidth - so
-        // without this, the icon/spectrum stay fully visible, floating
-        // outside the pill, while it collapses and after it's fully closed.
-        visible: widget.hasPlayer
+        // shrinking/growing with the pill's animated Layout.preferredWidth -
+        // so without this, the icon/spectrum float outside the pill while
+        // it's opening or closing, and after it's fully closed.
+        visible: widget.contentVisible
 
         Item {
             id: artArea
