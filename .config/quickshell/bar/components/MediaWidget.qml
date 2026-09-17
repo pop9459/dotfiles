@@ -96,8 +96,9 @@ PillWidget {
         Item {
             id: artArea
 
-            width: height
-            height: parent.height
+            width: root.scaledFontSize
+            height: root.scaledFontSize
+            anchors.verticalCenter: parent.verticalCenter
             clip: true
 
             Image {
