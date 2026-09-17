@@ -73,6 +73,7 @@ Scope {
 
                             MediaWidget {
                                 pillIndex: 3
+                                extraSideMargin: false
                             }
 
                         }
