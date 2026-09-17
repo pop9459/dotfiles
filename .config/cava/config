@@ -2,7 +2,7 @@
 mode = normal
 framerate = 60
 autosens = 1
-bars = 8
+bars = 16
 
 [input]
 method = pulse

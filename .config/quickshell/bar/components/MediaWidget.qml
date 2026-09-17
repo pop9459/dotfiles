@@ -41,7 +41,7 @@ PillWidget {
     readonly property bool isPlaying: widget.hasPlayer ? widget.activePlayer.isPlaying : false
     readonly property bool hasTrackInfo: widget.hasPlayer && widget.trackTitle.length > 0
 
-    property var barLevels: Array(8).fill(0)
+    property var barLevels: Array(16).fill(0)
 
     function pickActivePlayer() {
         for (const p of widget.playerList)
@@ -126,29 +126,6 @@ PillWidget {
             }
         }
 
-        Row {
-            id: spectrumRow
-
-            spacing: 2
-            height: parent.height
-            anchors.verticalCenter: parent.verticalCenter
-
-            Repeater {
-                model: widget.barLevels.length
-
-                delegate: Rectangle {
-                    width: 3
-                    height: Math.max(2, (widget.barLevels[index] / 7) * spectrumRow.height)
-                    anchors.bottom: parent.bottom
-                    color: widget.accentColor
-
-                    Behavior on height {
-                        NumberAnimation { duration: 90; easing.type: Easing.OutQuad }
-                    }
-                }
-            }
-        }
-
         Item {
             id: titleClip
 
@@ -173,6 +150,29 @@ PillWidget {
                     family: root.fontFamily
                     pixelSize: root.scaledFontSize
                     bold: true
+                }
+            }
+        }
+
+        Row {
+            id: spectrumRow
+
+            spacing: 1
+            height: parent.height
+            anchors.verticalCenter: parent.verticalCenter
+
+            Repeater {
+                model: widget.barLevels.length
+
+                delegate: Rectangle {
+                    width: 2
+                    height: Math.max(2, (widget.barLevels[index] / 7) * spectrumRow.height)
+                    anchors.bottom: parent.bottom
+                    color: widget.accentColor
+
+                    Behavior on height {
+                        NumberAnimation { duration: 90; easing.type: Easing.OutQuad }
+                    }
                 }
             }
         }
