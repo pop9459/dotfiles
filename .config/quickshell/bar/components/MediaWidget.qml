@@ -41,7 +41,7 @@ PillWidget {
     readonly property bool isPlaying: widget.hasPlayer ? widget.activePlayer.isPlaying : false
     readonly property bool hasTrackInfo: widget.hasPlayer && widget.trackTitle.length > 0
 
-    property var barLevels: Array(9).fill(0)
+    property var barLevels: Array(8).fill(0)
 
     function pickActivePlayer() {
         for (const p of widget.playerList)
@@ -78,7 +78,10 @@ PillWidget {
         running: widget.hasPlayer
         stdout: SplitParser {
             onRead: (line) => {
-                const parts = line.split(";").map(v => parseInt(v, 10));
+                // Each frame ends with a trailing bar_delimiter before the
+                // newline, so split() would otherwise yield one extra empty
+                // element at the end.
+                const parts = line.split(";").filter(v => v.length > 0).map(v => parseInt(v, 10));
                 if (parts.length === widget.barLevels.length && !parts.some(Number.isNaN))
                     widget.barLevels = parts;
             }
@@ -95,6 +98,7 @@ PillWidget {
 
             width: height
             height: parent.height
+            clip: true
 
             Image {
                 id: albumArt
