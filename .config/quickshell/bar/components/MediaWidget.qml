@@ -94,6 +94,12 @@ PillWidget {
         anchors.centerIn: parent
         height: root.barHeight - padding * 2
         spacing: widget.contentSpacing
+        // contentRoot (this Row's parent, from PillWidget) doesn't clip its
+        // children, and this Row sizes itself intrinsically rather than
+        // shrinking with the pill's animated Layout.preferredWidth - so
+        // without this, the icon/spectrum stay fully visible, floating
+        // outside the pill, while it collapses and after it's fully closed.
+        visible: widget.hasPlayer
 
         Item {
             id: artArea
