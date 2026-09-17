@@ -34,6 +34,7 @@ desktop:
     - uwsm  # Universal Wayland session manager
     - socat # For workspaces widget
     - nextcloud-desktop # Files backup
+    - cava # Audio visualizer for the bar's MediaWidget
   
 wayland:
   description: "Wayland Essentials - Clipboard, portals, and utilities"

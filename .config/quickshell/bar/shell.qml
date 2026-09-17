@@ -71,6 +71,10 @@ Scope {
                                 pillIndex: 2
                             }
 
+                            MediaWidget {
+                                pillIndex: 3
+                            }
+
                         }
 
                     }
