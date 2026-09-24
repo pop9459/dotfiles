@@ -9,6 +9,9 @@ import Quickshell.Io
 import Quickshell.Wayland
 
 Scope {
+    // Desktop service monitor - single instance on the primary screen, outside Variants.
+    ServiceMonitor {}
+
     // Variants is used here to create a separate PanelWindow for each screen, as Wayland doesn't allow a single window to span multiple screens.
     Variants {
         model: Quickshell.screens
