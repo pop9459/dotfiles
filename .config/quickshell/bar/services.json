@@ -3,6 +3,6 @@
     "services": [
         { "name": "kapsiar.sk", "icon": "󰖟", "type": "http", "target": "https://www.kapsiar.sk" },
         { "name": "minecraft", "icon": "󰍳", "type": "tcp", "target": "minecraft.kapsiar.sk:25565" },
-        { "name": "paperclip", "icon": "󰒓", "type": "systemd", "target": "paperclip.service" }
+        { "name": "paperclip", "icon": "󰒓", "type": "systemd", "target": "paperclip.service", "user": true }
     ]
 }
