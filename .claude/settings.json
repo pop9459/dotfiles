@@ -1,16 +1,24 @@
 {
-  "model": "haiku",
+  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "sh /home/pop/.claude/statusline-command.sh"
   },
   "modelSettings": {
     "claude-sonnet-5": {
-      "effortLevel": "medium"
+      "effortLevel": "high"
     },
     "claude-opus-5": {
       "effortLevel": "high"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
     }
   },
-  "theme": "auto"
+  "voice": {
+    "enabled": true,
+    "mode": "tap"
+  },
+  "theme": "auto",
+  "voiceEnabled": true
 }

@@ -57,3 +57,16 @@ Modules live in `scripts/lib/`, each sourced by `install_dots.sh`:
 - Theming: matugen + catppuccin variants (mocha/macchiato/frappe/latte), switched via `theme-switch <flavor>` or `theme-switch /path/to/wallpaper.png`.
 - Shell: fish, not bash/zsh, for interactive use (install scripts themselves are bash).
 - Fonts: JetBrainsMono Nerd Font + Font Awesome are required for icons in kitty/eww; see `FONTS.md` for troubleshooting squares/missing-glyph symptoms. Configured in `~/.config/kitty/kitty.conf` and `~/.config/eww/eww.scss`.
+
+## Claude Code configuration
+
+Portable Claude Code settings are tracked in dotfiles:
+- `.claude/settings.json` — model selection, theme, statusline config
+- `.claude/statusline-command.sh` — custom statusline script (Catppuccin mocha-themed, mirrors fish prompt)
+
+**Device-specific settings** (`.claude/settings.local.json`, containing device-local permissions) are intentionally NOT tracked. After restoring dotfiles on another device, create your own `settings.local.json` with any device-specific permissions or overrides.
+
+To sync Claude Code config to another device:
+1. Check out dotfiles normally: `./dotfiles_stuff/scripts/install_dots.sh`
+2. Claude Code config will be restored to `~/.claude/settings.json` and `~/.claude/statusline-command.sh`
+3. Create `~/.claude/settings.local.json` for device-specific settings if needed
