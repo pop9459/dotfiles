@@ -24,6 +24,10 @@ check() {
             [[ "$scope" == "user" ]] && flags=(--user)
             systemctl "${flags[@]}" is-active --quiet "$target"
             ;;
+        nextdns)
+            # Up when this machine's DNS goes through NextDNS (target unused).
+            curl -sL --max-time 5 https://test.nextdns.io | grep -q '"status":[[:space:]]*"ok"'
+            ;;
         ping)
             ping -c1 -W2 "$target" >/dev/null 2>&1
             ;;
