@@ -61,12 +61,12 @@ Modules live in `scripts/lib/`, each sourced by `install_dots.sh`:
 ## Claude Code configuration
 
 Portable Claude Code settings are tracked in dotfiles:
-- `.claude/settings.json` — model selection, theme, statusline config
+- `.claude/settings.json` — theme, statusline config, effort levels, voice (no `model` field — see below)
 - `.claude/statusline-command.sh` — custom statusline script (Catppuccin mocha-themed, mirrors fish prompt)
 
-**Device-specific settings** (`.claude/settings.local.json`, containing device-local permissions) are intentionally NOT tracked. After restoring dotfiles on another device, create your own `settings.local.json` with any device-specific permissions or overrides.
+**Device-specific settings** (`.claude/settings.local.json`, containing device-local permissions and the default `model`) are intentionally NOT tracked (globally gitignored via `~/.config/git/ignore`). Default model is a per-device/per-session preference, not a shared one — tracking it in `settings.json` caused repeated merge conflicts when different machines/sessions picked different models. After restoring dotfiles on another device, create your own `settings.local.json` with `model` plus any device-specific permissions or overrides.
 
 To sync Claude Code config to another device:
 1. Check out dotfiles normally: `./dotfiles_stuff/scripts/install_dots.sh`
 2. Claude Code config will be restored to `~/.claude/settings.json` and `~/.claude/statusline-command.sh`
-3. Create `~/.claude/settings.local.json` for device-specific settings if needed
+3. Create `~/.claude/settings.local.json` with `model` and any other device-specific settings
