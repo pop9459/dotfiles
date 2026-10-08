@@ -45,6 +45,7 @@ wayland:
     - nwg-displays  # GUI for arranging Wayland outputs
     - hyprshot  # Hyprland-native screenshot utility
     - hyprpolkitagent  # Polkit authentication agent
+    - hyprsunset  # Blue light filter (night light)
 
 dev-tools:
   description: "Development Tools - Containers, editors, browsers"
