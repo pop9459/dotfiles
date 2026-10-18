@@ -3,6 +3,8 @@
     "services": [
         { "name": "kapsiar.sk", "icon": "󰖟", "type": "http", "target": "https://www.kapsiar.sk" },
         { "name": "minecraft", "icon": "󰍳", "type": "tcp", "target": "minecraft.kapsiar.sk:25565" },
-        { "name": "nextdns", "icon": "󰕥", "type": "nextdns", "target": "" }
+        { "name": "home assistant", "icon": "󰟐", "type": "http", "target": "https://ha.kapsiar.sk/manifest.json" },
+        { "name": "nextdns", "icon": "󰕥", "type": "nextdns", "target": "" },
+        { "name": "hermes", "icon": "󰚩", "type": "systemd", "target": "hermes-gateway.service", "user": true }
     ]
 }
