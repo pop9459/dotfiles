@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+"""fah-idle: fold with Folding@home only while the desktop is idle.
+
+hypridle calls `fah-idle idle` after N minutes without input and
+`fah-idle active` on resume. The `watch` loop (systemd --user service
+fah-idle-watch) is the single decision point: it folds only while the idle
+marker exists AND llama-swap has no model loaded, and pauses otherwise.
+
+  fah-idle idle | active | watch | status | fold | pause
+"""
+import base64, json, os, socket, struct, sys, time, urllib.request
+from datetime import datetime, timezone
+from pathlib import Path
+
+FAH_HOST, FAH_PORT = "127.0.0.1", 7396
+LLAMA_RUNNING = "http://127.0.0.1:8080/running"
+STATE_DIR = Path(os.environ.get("XDG_RUNTIME_DIR", "/tmp")) / "fah-idle"
+MARKER = STATE_DIR / "idle"
+POLL = 15  # seconds
+
+
+def log(msg):
+    print(f"[fah-idle] {msg}", flush=True)
+
+
+def _recv_exact(s, n):
+    buf = b""
+    while len(buf) < n:
+        chunk = s.recv(n - len(buf))
+        if not chunk:
+            raise ConnectionError("closed")
+        buf += chunk
+    return buf
+
+
+def _recv_msg(s):
+    # minimal RFC 6455 reader: text frames + continuations, skips pings
+    data = b""
+    while True:
+        b1, b2 = _recv_exact(s, 2)
+        n = b2 & 0x7F
+        if n == 126:
+            n = struct.unpack(">H", _recv_exact(s, 2))[0]
+        elif n == 127:
+            n = struct.unpack(">Q", _recv_exact(s, 8))[0]
+        payload = _recv_exact(s, n)
+        if b1 & 0x0F in (0x1, 0x0):
+            data += payload
+            if b1 & 0x80:
+                return data.decode()
+
+
+def _send_msg(s, text):
+    p = text.encode()
+    mask = os.urandom(4)
+    n = len(p)
+    hdr = bytes([0x81]) + (bytes([0x80 | n]) if n < 126 else
+                           bytes([0x80 | 126]) + struct.pack(">H", n) if n < 65536 else
+                           bytes([0x80 | 127]) + struct.pack(">Q", n))
+    s.sendall(hdr + mask + bytes(c ^ mask[i % 4] for i, c in enumerate(p)))
+
+
+def fah(msg=None):
+    """Connect, read the initial state dump, optionally send one command."""
+    try:
+        with socket.create_connection((FAH_HOST, FAH_PORT), timeout=10) as s:
+            key = base64.b64encode(os.urandom(16)).decode()
+            s.sendall((f"GET /api/websocket HTTP/1.1\r\nHost: {FAH_HOST}:{FAH_PORT}\r\n"
+                       f"Upgrade: websocket\r\nConnection: Upgrade\r\n"
+                       f"Sec-WebSocket-Key: {key}\r\nSec-WebSocket-Version: 13\r\n\r\n").encode())
+            resp = b""
+            while b"\r\n\r\n" not in resp:
+                resp += s.recv(1)
+            if b" 101 " not in resp.split(b"\r\n")[0]:
+                raise ConnectionError(resp.split(b"\r\n")[0].decode())
+            state = json.loads(_recv_msg(s))
+            if msg is not None:
+                _send_msg(s, json.dumps(msg))
+                time.sleep(0.3)
+            return state
+    except Exception as e:
+        log(f"fah-client unreachable: {e}")
+        return None
+
+
+def set_state(state):
+    # 'time' must be newer than the last change or the client ignores it
+    # (1 s resolution), so bump past the last sent time for rapid toggles
+    stamp = STATE_DIR / "last-change"
+    t = int(time.time())
+    try:
+        t = max(t, int(stamp.read_text()) + 1)
+    except (OSError, ValueError):
+        pass
+    now = datetime.fromtimestamp(t, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    ok = fah({"cmd": "state", "state": state, "time": now}) is not None
+    if ok:
+        stamp.write_text(str(t))
+    return ok
+
+
+def llm_busy():
+    try:
+        with urllib.request.urlopen(LLAMA_RUNNING, timeout=3) as r:
+            return bool(json.load(r).get("running"))
+    except Exception:
+        return False  # llama-swap down -> GPU is free
+
+
+def want_fold():
+    return MARKER.exists() and not llm_busy()
+
+
+def watch():
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    MARKER.unlink(missing_ok=True)  # session just started: user is active
+    last = None
+    while True:
+        target = "fold" if want_fold() else "pause"
+        if target != last and set_state(target):
+            log(f"-> {target}")
+            last = target
+        time.sleep(POLL)
+
+
+def main():
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "status"
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    if cmd == "idle":
+        MARKER.touch()
+        if not llm_busy():
+            set_state("fold")
+    elif cmd == "active":
+        MARKER.unlink(missing_ok=True)
+        set_state("pause")
+    elif cmd in ("fold", "pause"):
+        set_state(cmd)
+    elif cmd == "watch":
+        watch()
+    elif cmd == "status":
+        s = fah() or {}
+        groups = s.get("config", {}).get("groups") or s.get("groups", {})
+        paused = {g: (v.get("config", v).get("paused")) for g, v in groups.items()} if isinstance(groups, dict) else groups
+        print(f"idle marker: {MARKER.exists()}  llama-swap busy: {llm_busy()}")
+        print(f"groups paused: {paused}")
+        for u in s.get("units", []):
+            print(f"unit {u.get('id','?')[:8]} state={u.get('state')} progress={u.get('wu_progress', u.get('progress'))}")
+    else:
+        sys.exit(__doc__)
+
+
+if __name__ == "__main__":
+    main()

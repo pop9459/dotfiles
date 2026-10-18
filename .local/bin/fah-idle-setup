@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# One-time root setup for Folding@home idle folding (run as yourself; uses sudo).
+set -euo pipefail
+
+paru -S --needed foldingathome rocm-opencl-runtime hypridle
+
+# GPU-only by default (CPU folding off); new installs read this once
+sudo tee /etc/fah-client/config.xml >/dev/null <<'EOF'
+<config>
+  <cpus v='0'/>
+</config>
+EOF
+
+# RX 6700 XT is gfx1031, not on ROCm's official list -> present it as gfx1030.
+# fah-client needs /dev/kfd + /dev/dri access.
+sudo install -d /etc/systemd/system/fah-client.service.d
+sudo tee /etc/systemd/system/fah-client.service.d/override.conf >/dev/null <<'EOF'
+[Service]
+Environment=HSA_OVERRIDE_GFX_VERSION=10.3.0
+SupplementaryGroups=render video
+Nice=19
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now fah-client.service
+echo "done - fah-client: $(systemctl is-active fah-client)"

@@ -1,0 +1,13 @@
+[Unit]
+Description=Fold with Folding@home only while idle (fah-idle)
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/fah-idle watch
+ExecStopPost=%h/.local/bin/fah-idle pause
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=graphical-session.target
