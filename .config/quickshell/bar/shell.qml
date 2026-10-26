@@ -20,6 +20,11 @@ Scope {
             PanelWindow {
                 id: root
 
+                // Screen this bar instance belongs to (from Variants model)
+                required property var modelData
+
+                screen: modelData
+
                 // Theme
                 property color colBg: "#00000000"
                 property color colFg: "#a9b1d6"
