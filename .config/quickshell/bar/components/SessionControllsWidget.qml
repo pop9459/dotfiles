@@ -187,7 +187,8 @@ PillWidget {
             Process {
                 id: logoutProcess
 
-                command: ["hyprctl", "dispatch", "exit"] // Example command for Sway, adjust as needed for your compositor
+                // Hyprland 0.55+ (Lua config): dispatch takes a Lua hl.dsp expression
+                command: ["hyprctl", "dispatch", "hl.dsp.exit()"]
                 running: false
             }
 

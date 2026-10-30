@@ -22,5 +22,5 @@
       "󰤄")
     (button :class "session-btn logout"
             :tooltip "Logout"
-            :onclick "hyprctl dispatch exit"
+            :onclick "hyprctl dispatch 'hl.dsp.exit()'"
       "")))

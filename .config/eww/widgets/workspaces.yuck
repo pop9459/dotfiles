@@ -14,7 +14,7 @@
     (for ws in workspaces_data
       (button 
         :class "workspace-btn ${ws.active ? 'active' : 'inactive'}"
-        :onclick "hyprctl dispatch workspace ${ws.id}"
+        :onclick "hyprctl dispatch 'hl.dsp.focus({ workspace = ${ws.id} })'"
         "${ws.id}"
       )
     )

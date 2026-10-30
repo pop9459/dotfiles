@@ -41,7 +41,8 @@ PillWidget {
                     anchors.fill: parent
                     onClicked: {
                         // Switch to the clicked workspace
-                        Hyprland.dispatch("workspace " + (modelData.id) )
+                        // Hyprland 0.55+ (Lua config): dispatch takes a Lua hl.dsp expression
+                        Hyprland.dispatch("hl.dsp.focus({ workspace = " + modelData.id + " })")
                     }   
                 
                 }   

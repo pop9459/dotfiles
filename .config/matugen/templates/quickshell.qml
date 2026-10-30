@@ -5,40 +5,40 @@ import QtQuick
 
 QtObject {
     // Base colors
-    readonly property color base: "{{ base | prepend: "#" }}"
-    readonly property color mantle: "{{ mantle | prepend: "#" }}"
-    readonly property color crust: "{{ crust | prepend: "#" }}"
+    readonly property color base: "{{ base }}"
+    readonly property color mantle: "{{ mantle }}"
+    readonly property color crust: "{{ crust }}"
     
     // Surface colors
-    readonly property color surface0: "{{ surface0 | prepend: "#" }}"
-    readonly property color surface1: "{{ surface1 | prepend: "#" }}"
-    readonly property color surface2: "{{ surface2 | prepend: "#" }}"
+    readonly property color surface0: "{{ surface0 }}"
+    readonly property color surface1: "{{ surface1 }}"
+    readonly property color surface2: "{{ surface2 }}"
     
     // Overlay colors
-    readonly property color overlay0: "{{ overlay0 | prepend: "#" }}"
-    readonly property color overlay1: "{{ overlay1 | prepend: "#" }}"
-    readonly property color overlay2: "{{ overlay2 | prepend: "#" }}"
+    readonly property color overlay0: "{{ overlay0 }}"
+    readonly property color overlay1: "{{ overlay1 }}"
+    readonly property color overlay2: "{{ overlay2 }}"
     
     // Text colors
-    readonly property color subtext0: "{{ subtext0 | prepend: "#" }}"
-    readonly property color subtext1: "{{ subtext1 | prepend: "#" }}"
-    readonly property color text: "{{ text | prepend: "#" }}"
+    readonly property color subtext0: "{{ subtext0 }}"
+    readonly property color subtext1: "{{ subtext1 }}"
+    readonly property color text: "{{ text }}"
     
     // Accent colors (for pill borders)
-    readonly property color blue: "{{ blue | prepend: "#" }}"
-    readonly property color green: "{{ green | prepend: "#" }}"
-    readonly property color yellow: "{{ yellow | prepend: "#" }}"
-    readonly property color red: "{{ red | prepend: "#" }}"
-    readonly property color pink: "{{ pink | prepend: "#" }}"
-    readonly property color mauve: "{{ mauve | prepend: "#" }}"
-    readonly property color peach: "{{ peach | prepend: "#" }}"
-    readonly property color sky: "{{ sky | prepend: "#" }}"
-    readonly property color teal: "{{ teal | prepend: "#" }}"
-    readonly property color lavender: "{{ lavender | prepend: "#" }}"
-    readonly property color rosewater: "{{ rosewater | prepend: "#" }}"
-    readonly property color flamingo: "{{ flamingo | prepend: "#" }}"
-    readonly property color maroon: "{{ maroon | prepend: "#" }}"
-    readonly property color sapphire: "{{ sapphire | prepend: "#" }}"
+    readonly property color blue: "{{ blue }}"
+    readonly property color green: "{{ green }}"
+    readonly property color yellow: "{{ yellow }}"
+    readonly property color red: "{{ red }}"
+    readonly property color pink: "{{ pink }}"
+    readonly property color mauve: "{{ mauve }}"
+    readonly property color peach: "{{ peach }}"
+    readonly property color sky: "{{ sky }}"
+    readonly property color teal: "{{ teal }}"
+    readonly property color lavender: "{{ lavender }}"
+    readonly property color rosewater: "{{ rosewater }}"
+    readonly property color flamingo: "{{ flamingo }}"
+    readonly property color maroon: "{{ maroon }}"
+    readonly property color sapphire: "{{ sapphire }}"
     
     // Color cycling for pills (matches eww nth-child pattern)
     function cycleColor(index) {
