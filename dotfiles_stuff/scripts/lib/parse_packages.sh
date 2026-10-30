@@ -2,13 +2,15 @@
 # YAML parser for packages.yaml
 # Simple bash-based parser for our specific YAML structure
 
-# Parse packages from YAML file by category and type (official/aur)
+# Parse packages from YAML file by category and type
+# Type is the list key under the category: 'packages' (current format, paru installs
+# repo + AUR alike), or the legacy 'official' / 'aur' split.
 # Usage: parse_packages <yaml_file> <category> <type>
-# Example: parse_packages packages.yaml desktop official
+# Example: parse_packages packages.yaml desktop packages
 parse_packages() {
     local yaml_file="$1"
     local category="$2"
-    local type="$3"  # 'official' or 'aur'
+    local type="$3"  # 'packages', 'official' or 'aur'
     
     if [ ! -f "$yaml_file" ]; then
         log_error "Package file not found: $yaml_file"
@@ -36,7 +38,7 @@ parse_packages() {
         fi
         
         # Check if we're leaving the current category (new top-level key)
-        if [[ "$line" =~ ^[a-z-]+: ]] && [[ "$line" != "description:"* ]] && [[ "$line" != "official:"* ]] && [[ "$line" != "aur:"* ]]; then
+        if [[ "$line" =~ ^[a-z-]+: ]] && [[ "$line" != "description:"* ]] && [[ "$line" != "official:"* ]] && [[ "$line" != "aur:"* ]] && [[ "$line" != "packages:"* ]]; then
             if [ "$in_category" = true ]; then
                 break
             fi
@@ -47,7 +49,7 @@ parse_packages() {
             if [[ "$line" == "$type:" ]]; then
                 in_type=true
                 continue
-            elif [[ "$line" == "official:" ]] || [[ "$line" == "aur:" ]]; then
+            elif [[ "$line" == "official:" ]] || [[ "$line" == "aur:" ]] || [[ "$line" == "packages:" ]]; then
                 in_type=false
                 continue
             fi

@@ -16,6 +16,7 @@ install_package_list() {
     
     local type_label="official"
     [ "$is_aur" = "true" ] && type_label="AUR"
+    [ "$is_aur" = "repo+AUR" ] && type_label="repo+AUR"
     
     log_info "Checking $category_name packages ($type_label)..."
     
@@ -66,6 +67,20 @@ install_category() {
     
     local success=true
     
+    # Install packages from the combined list (current packages.yaml format; paru
+    # resolves repo and AUR packages alike)
+    local all_pkgs=()
+    while IFS= read -r pkg; do
+        all_pkgs+=("$pkg")
+    done < <(parse_packages "$yaml_file" "$category" "packages")
+    
+    if [ ${#all_pkgs[@]} -gt 0 ]; then
+        if ! install_package_list "$category" all_pkgs repo+AUR; then
+            success=false
+        fi
+    fi
+    
+    # Legacy format: separate official / aur lists
     # Install official packages
     local official_pkgs=()
     while IFS= read -r pkg; do

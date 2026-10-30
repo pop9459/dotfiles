@@ -19,7 +19,9 @@ desktop:
     - fuzzel  # Application launcher
     - mako  # Notification daemon
     - hyprlock  # Screen locker
+    - hypridle  # Idle daemon (hypridle.conf, fah-idle)
     - hyprpaper  # Wallpaper daemon
+    - quickshell  # Status bar (~/.config/quickshell/bar)
     - kitty  # Terminal emulator
     - nautilus  # GUI file manager
     - yazi  # CLI file manager
@@ -30,7 +32,7 @@ desktop:
     - noto-fonts-cjk  # CJK language support
     - noto-fonts-emoji  # Emoji support
     - ttf-font-awesome  # Icon font for UI elements
-    - eww  # Status bar widget system
+    - eww  # Legacy status bar (replaced by quickshell, config kept)
     - uwsm  # Universal Wayland session manager
     - socat # For workspaces widget
     - nextcloud-desktop # Files backup
