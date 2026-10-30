@@ -92,8 +92,8 @@ for variant in ['mocha', 'macchiato', 'frappe', 'latte']:
         if [ -f "$HOME/.config/eww/eww.scss" ]; then
             log_info "  ✓ eww colors: ~/.config/eww/eww.scss"
         fi
-        if [ -f "$HOME/.config/hypr/colors.conf" ]; then
-            log_info "  ✓ Hyprland colors: ~/.config/hypr/colors.conf"
+        if [ -f "$HOME/.config/hypr/colors.lua" ]; then
+            log_info "  ✓ Hyprland colors: ~/.config/hypr/colors.lua"
         fi
         if [ -f "$HOME/.config/kitty/colors.conf" ]; then
             log_info "  ✓ kitty colors: ~/.config/kitty/colors.conf"

@@ -48,7 +48,7 @@ scripts/
 ### File Paths
 
 - **Always use absolute paths from `~`** when referencing dotfiles (e.g., `.config/nvim/init.vim`, `.bashrc`)
-- Don't include `~/` prefix when adding files: `dotfiles add .config/hypr/hyprland.conf` (not `~/`)
+- Don't include `~/` prefix when adding files: `dotfiles add .config/hypr/hyprland.lua` (not `~/`)
 - The repository root conceptually IS the home directory
 
 ### Gitignore Strategy

@@ -26,41 +26,21 @@ install_keyring() {
         log_info "libsecret is already installed"
     fi
     
-    # Check if Hyprland autostart config exists
-    local autostart_conf="$HOME/.config/hypr/conf/autostart.conf"
+    # Hyprland 0.55+ uses a Lua config. The keyring fix (D-Bus activation environment update)
+    # ships in the tracked ~/.config/hypr/conf/autostart.lua, so only verify it here.
+    # gnome-keyring-daemon itself is started and unlocked by PAM at login: do not restart it
+    # from Hyprland, or the new instance comes up locked.
+    local autostart_lua="$HOME/.config/hypr/conf/autostart.lua"
     
-    if [ ! -f "$autostart_conf" ]; then
-        log_warning "Hyprland autostart config not found at $autostart_conf"
-        log_info "Skipping Hyprland keyring configuration"
-        return 0
-    fi
-    
-    # Add D-Bus environment update and keyring daemon restart to Hyprland autostart
-    local dbus_marker="dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=GNOME"
-    
-    if grep -q "XDG_CURRENT_DESKTOP=GNOME" "$autostart_conf"; then
+    if [ ! -f "$autostart_lua" ]; then
+        log_warning "Hyprland autostart config not found at $autostart_lua"
+        log_info "Skipping Hyprland keyring check"
+    elif grep -q "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP" "$autostart_lua"; then
         log_info "Hyprland keyring autostart already configured"
     else
-        log_info "Adding keyring detection fixes to Hyprland autostart..."
-        
-        # Find the line with keyring daemon or the AUTOSTART header to insert after
-        if grep -q "gnome-keyring-daemon" "$autostart_conf"; then
-            # Insert before existing gnome-keyring-daemon line
-            sed -i "/^# GNOME keyring daemon/i\\
-# D-Bus environment update for keyring detection (fixes VS Code/Copilot CLI Secret Service API)\\
-exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=GNOME\\
-\\
-" "$autostart_conf"
-            
-            # Add restart command after gnome-keyring-daemon line
-            sed -i "/^exec-once = gnome-keyring-daemon/a\\
-exec-once = systemctl --user restart gnome-keyring-daemon" "$autostart_conf"
-            
-            log_success "Added keyring detection fixes to Hyprland autostart"
-        else
-            log_warning "Could not find gnome-keyring-daemon in autostart config"
-            log_info "Manual configuration may be needed"
-        fi
+        log_warning "D-Bus environment update missing from $autostart_lua"
+        log_info "Add inside the hl.on(\"hyprland.start\", ...) block:"
+        log_info "  hl.exec_cmd(\"dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP\")"
     fi
     
     log_success "Keyring setup complete"

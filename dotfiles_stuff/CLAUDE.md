@@ -20,7 +20,7 @@ git --git-dir=$HOME/.dotfiles --work-tree=$HOME commit -m "Description"
 git --git-dir=$HOME/.dotfiles --work-tree=$HOME push origin <branch-name>
 ```
 
-- Always use paths relative to `$HOME`, no `~/` prefix (`dotfiles add .config/hypr/hyprland.conf`).
+- Always use paths relative to `$HOME`, no `~/` prefix (`dotfiles add .config/hypr/hyprland.lua`).
 - Check current branch before pushing (`... branch`) and push to it explicitly.
 - Repo config sets `status.showUntrackedFiles no` — status only shows tracked files.
 - `.gitignore` strategy: ignore everything (`*`), then negate (`!`) specific tracked paths.
