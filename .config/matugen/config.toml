@@ -14,10 +14,6 @@ reload_apps_list = { eww = "eww reload", hyprland = "hyprctl reload" }
 input_path = "~/.config/matugen/templates/eww.scss"
 output_path = "~/.config/eww/eww.scss"
 
-[templates.hyprland-colors]
-input_path = "~/.config/matugen/templates/colors-hyprland.conf"
-output_path = "~/.config/hypr/colors.conf"
-
 [templates.kitty]
 input_path = "~/.config/matugen/templates/kitty.conf"
 output_path = "~/.config/kitty/colors.conf"

@@ -108,7 +108,8 @@ git --git-dir=$HOME/.dotfiles --work-tree=$HOME push origin <branch-name>
 
 ### Desktop Environment
 - **Compositor**: Hyprland (managed by uwsm, not standalone)
-- **Bar**: eww-wayland
+- **Bar**: quickshell (`~/.config/quickshell/bar`; eww config is legacy)
+- **Config**: Hyprland uses Lua since 0.55 (`~/.config/hypr/hyprland.lua` + `conf/*.lua`)
 - **Terminal**: kitty
 - **Launcher**: fuzzel
 - **Notifications**: mako

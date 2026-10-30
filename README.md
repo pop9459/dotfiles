@@ -63,8 +63,8 @@ dotfiles log                       # View history
 
 - **WM/Compositor**: Hyprland (uwsm-managed session)
 - **Display Manager**: ly
-- **Status Bar**: eww-wayland
-- **Launcher**: hyprlauncher 
+- **Status Bar**: quickshell
+- **Launcher**: fuzzel
 - **Notifications**: mako
 - **Lockscreen**: hyprlock
 - **Wallpaper**: hyprpaper

@@ -44,29 +44,28 @@ Modules live in `scripts/lib/`, each sourced by `install_dots.sh`:
 - `utils.sh` — shared logging (`log_info/success/warning/error/header`), `command_exists`, `is_installed` (pacman), `ask_yes_no`, retry helpers. Source this first when writing/testing a module standalone.
 - `install_dotfiles.sh` — bare repo clone/checkout setup.
 - `install_paru.sh`, `install_keyring.sh`, `install_matugen.sh`, `install_fish.sh`, `install_fonts.sh` — one concern each.
-- `parse_packages.sh` — hand-rolled YAML parser for `packages.yaml` (no yq/python dependency). `parse_packages <file> <category> <type>` where type is `official` or `aur`; `get_categories`; `get_category_description`. Parsing is line-based and format-sensitive — keep `packages.yaml` structure (category → `description`/`official`/`aur` keys → `- pkg` list) intact when editing.
-- `install_packages.sh` — drives package installation using the parser, split by official (pacman) vs AUR (paru).
+- `parse_packages.sh` — hand-rolled YAML parser for `packages.yaml` (no yq/python dependency). `parse_packages <file> <category> <type>` where type is `packages` (current format) or the legacy `official`/`aur`; `get_categories`; `get_category_description`. Parsing is line-based and format-sensitive — keep `packages.yaml` structure (category → `description`/`packages` keys → `- pkg` list) intact when editing.
+- `install_packages.sh` — drives package installation using the parser; everything goes through `paru -S --needed` (repo and AUR alike). Legacy `official:`/`aur:` lists are still read.
 
 **Adding a new install module**: create `scripts/lib/install_<component>.sh` following the existing pattern (idempotency check first, use `utils.sh` logging, retry on failure, clean up temp files), source it in `install_dots.sh`, and call it from `main()`.
 
-**Adding packages**: edit `packages.yaml` under the right category (`system`, `desktop`, `wayland`, `dev-tools`, ...), under `official:` or `aur:`.
+**Adding packages**: edit `packages.yaml` under the right category (`system`, `desktop`, `wayland`, `dev-tools`, ...), under its `packages:` list (repo or AUR, paru handles both).
 
 ## Stack / conventions
 
-- Compositor: Hyprland via uwsm (not standalone). Bar: eww-wayland. Terminal: kitty. Launcher: fuzzel. Notifications: mako. Lockscreen: hyprlock. Files: Nautilus (GUI) + yazi (CLI).
+- Compositor: Hyprland via uwsm (not standalone). Bar: quickshell (`~/.config/quickshell/bar`; eww config is legacy). Terminal: kitty. Launcher: fuzzel. Notifications: mako. Lockscreen: hyprlock. Files: Nautilus (GUI) + yazi (CLI).
+- Hyprland config is Lua (0.55+): `~/.config/hypr/hyprland.lua` requires `conf/*.lua` (see `conf/README.md`). `monitors.lua` (nwg-displays) and `colors.lua` (matugen) are generated and untracked. Check edits with `Hyprland --verify-config`. `hyprctl dispatch` takes Lua (`hyprctl dispatch 'hl.dsp.focus({ workspace = 2 })'`), including from quickshell/eww. hypridle/hyprlock/hyprsunset `.conf` files are still hyprlang.
 - Theming: matugen + catppuccin variants (mocha/macchiato/frappe/latte), switched via `theme-switch <flavor>` or `theme-switch /path/to/wallpaper.png`.
 - Shell: fish, not bash/zsh, for interactive use (install scripts themselves are bash).
-- Fonts: JetBrainsMono Nerd Font + Font Awesome are required for icons in kitty/eww; see `FONTS.md` for troubleshooting squares/missing-glyph symptoms. Configured in `~/.config/kitty/kitty.conf` and `~/.config/eww/eww.scss`.
+- Fonts: JetBrainsMono Nerd Font + Font Awesome are required for icons in kitty and the bar; see `FONTS.md` for troubleshooting squares/missing-glyph symptoms. Configured in `~/.config/kitty/kitty.conf` and the quickshell QML (`fontFamily`, "JetBrainsMono Nerd Font Propo").
 
 ## Claude Code configuration
 
-Portable Claude Code settings are tracked in dotfiles:
-- `.claude/settings.json` — theme, statusline config, effort levels, voice (no `model` field — see below)
+Only the statusline script is tracked in dotfiles:
 - `.claude/statusline-command.sh` — custom statusline script (Catppuccin mocha-themed, mirrors fish prompt)
 
-**Device-specific settings** (`.claude/settings.local.json`, containing device-local permissions and the default `model`) are intentionally NOT tracked (globally gitignored via `~/.config/git/ignore`). Default model is a per-device/per-session preference, not a shared one — tracking it in `settings.json` caused repeated merge conflicts when different machines/sessions picked different models. After restoring dotfiles on another device, create your own `settings.local.json` with `model` plus any device-specific permissions or overrides.
+**Settings are per-device and NOT tracked**: `.claude/settings.json` (theme, statusline hookup, effort, voice, model) was untracked because different machines/sessions kept producing merge conflicts in it. `.claude/settings.local.json` (device-local permissions) is globally gitignored via `~/.config/git/ignore`. Don't `dotfiles add` either file.
 
-To sync Claude Code config to another device:
-1. Check out dotfiles normally: `./dotfiles_stuff/scripts/install_dots.sh`
-2. Claude Code config will be restored to `~/.claude/settings.json` and `~/.claude/statusline-command.sh`
-3. Create `~/.claude/settings.local.json` with `model` and any other device-specific settings
+To set up Claude Code on another device:
+1. Check out dotfiles normally: `./dotfiles_stuff/scripts/install_dots.sh` (restores `~/.claude/statusline-command.sh`)
+2. Create `~/.claude/settings.json` yourself, pointing `statusLine` at `~/.claude/statusline-command.sh`, plus theme/model/etc.
