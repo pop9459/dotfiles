@@ -12,6 +12,9 @@ Scope {
     // Desktop service monitor - single instance on the primary screen, outside Variants.
     ServiceMonitor {}
 
+    // 20-20-20 eye-break reminder - single instance so the sound plays once.
+    EyeBreakOsd {}
+
     // Variants is used here to create a separate PanelWindow for each screen, as Wayland doesn't allow a single window to span multiple screens.
     Variants {
         model: Quickshell.screens
